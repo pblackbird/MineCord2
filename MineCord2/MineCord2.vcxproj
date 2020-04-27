@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{88f4aeaa-1d64-459a-be2c-13be8feedd4b}</ProjectGuid>
+    <Keyword>Linux</Keyword>
+    <RootNamespace>MineCord2</RootNamespace>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <ApplicationType>Linux</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
+    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
+    <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClCompile Include="Entities\Entity.cpp" />
+    <ClCompile Include="Entities\PlayerControlledEntity.cpp" />
+    <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
+    <ClCompile Include="States\PlayState.cpp" />
+    <ClCompile Include="Transformable.cpp" />
+    <ClCompile Include="Network\TCPClient.cpp" />
+    <ClCompile Include="Packets\BaseNetPacket.cpp" />
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Network\MinecraftNetworkClient.cpp" />
+    <ClCompile Include="Network\TCPServer.cpp" />
+    <ClCompile Include="Packets\HandshakePacket.cpp" />
+    <ClCompile Include="Packets\LoginStartPacket.cpp" />
+    <ClCompile Include="Packets\LoginSuccessPacket.cpp" />
+    <ClCompile Include="States\LoginState.cpp" />
+    <ClCompile Include="States\StatesBindings.cpp" />
+    <ClCompile Include="Packets\PacketUtils.cpp" />
+    <ClCompile Include="Packets\PingPacket.cpp" />
+    <ClCompile Include="Packets\StatusPacket.cpp" />
+    <ClCompile Include="States\HandshakeState.cpp" />
+    <ClCompile Include="States\StatusState.cpp" />
+    <ClCompile Include="ThirdParty\BufferedIO.cpp" />
+    <ClCompile Include="MinecraftTypes.cpp" />
+    <ClCompile Include="Utl.cpp" />
+    <ClCompile Include="World\BaseWorld.cpp" />
+    <ClCompile Include="World\TestWorld.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entities\Entity.h" />
+    <ClInclude Include="Entities\PlayerControlledEntity.h" />
+    <ClInclude Include="GamePackets\JoinGamePacket.h" />
+    <ClInclude Include="States\PlayState.h" />
+    <ClInclude Include="Transformable.h" />
+    <ClInclude Include="Packets\BaseNetPacket.h" />
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Network\MinecraftNetworkClient.h" />
+    <ClInclude Include="Network\NetConfig.h" />
+    <ClInclude Include="Network\NetworkUtils.h" />
+    <ClInclude Include="Network\TCPClient.h" />
+    <ClInclude Include="Network\TCPServer.h" />
+    <ClInclude Include="Packets\HandshakePacket.h" />
+    <ClInclude Include="Packets\LoginStartPacket.h" />
+    <ClInclude Include="States\LoginState.h" />
+    <ClInclude Include="Packets\LoginSuccessPacket.h" />
+    <ClInclude Include="States\StatesBindings.h" />
+    <ClInclude Include="Packets\PacketUtils.h" />
+    <ClInclude Include="Packets\PingPacket.h" />
+    <ClInclude Include="Packets\StatusPacket.h" />
+    <ClInclude Include="States\BaseClientState.h" />
+    <ClInclude Include="States\HandshakeState.h" />
+    <ClInclude Include="States\StatusState.h" />
+    <ClInclude Include="Utl.h" />
+    <ClInclude Include="ThirdParty\BufferedIO.h" />
+    <ClInclude Include="MinecraftTypes.h" />
+    <ClInclude Include="VERSION.h" />
+    <ClInclude Include="World\BaseWorld.h" />
+    <ClInclude Include="World\TestWorld.h" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <CppLanguageStandard>c++17</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <CppLanguageStandard>c++17</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>pthread</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

@@ -1,0 +1,5 @@
+#pragma once
+
+#define RECV_BUFFER_SIZE 1024
+#define SEND_BUFFER_SIZE 1024
+#define MAX_CLIENTS 1024
