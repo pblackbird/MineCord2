@@ -3,13 +3,13 @@
 void NBTString::Write(Buffer& dest) {
 	NBT::Write(dest);
 
-	dest.writeUInt16_LE(value.length());
+	dest.writeUInt16_BE(value.length());
 	dest.writeStr(value);
 }
 
 void NBTString::Read(Buffer& src) {
 	NBT::Read(src);
 
-	uint16_t length = src.readUInt16_LE();
+	uint16_t length = src.readUInt16_BE();
 	value = src.readStr(length);
 }

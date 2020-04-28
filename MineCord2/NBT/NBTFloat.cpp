@@ -3,11 +3,11 @@
 void NBTFloat::Write(Buffer& dest) {
 	NBT::Write(dest);
 
-	dest.writeFloat_LE(value);
+	dest.writeFloat_BE(value);
 }
 
 void NBTFloat::Read(Buffer& src) {
 	NBT::Read(src);
 
-	value - src.readFloat_LE();
+	value - src.readFloat_BE();
 }
