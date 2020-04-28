@@ -1,4 +1,4 @@
-#include "NBTList.h"
+#include "NBT_List.h"
 
 void NBTList::Write(Buffer& dest) {
   NBT::Write(dest);

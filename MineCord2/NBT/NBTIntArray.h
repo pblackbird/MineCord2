@@ -6,10 +6,10 @@
 class NBTIntArray : NBT
 {
 public:
-  std::vector<int> array;
-  NBTDataType type = NBTDataType::TAG_Int_Array;
+    std::vector<int> array;
+    NBTDataType type = NBTDataType::TAG_Int_Array;
 
 public:
-  virtual void Write(Buffer& dest) override;
-  virtual void Read(Buffer& src) override;
-}
+    virtual void Write(Buffer& dest) override;
+    virtual void Read(Buffer& src) override;
+};
