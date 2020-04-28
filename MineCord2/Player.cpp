@@ -50,8 +50,6 @@ void Player::Join() {
 }
 
 void Player::SetTransform(Point3D position, Angle rotation, int teleportId) {
-	const auto playerEntity = pSlave;
-
 	SetPlayerTransformPacket transformMsg;
 	transformMsg.flags = 0;
 	transformMsg.teleportId = teleportId;

@@ -3,7 +3,7 @@
 void NBTString::Write(Buffer& dest) {
 	NBT::Write(dest);
 
-	dest.writeUInt16_BE(value.length());
+	dest.writeUInt16_BE((uint16_t)value.length());
 	dest.writeStr(value);
 }
 

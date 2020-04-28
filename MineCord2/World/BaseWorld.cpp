@@ -141,12 +141,12 @@ Player* BaseWorld::GetPlayerByNetworkClientId(int clientId) {
 }
 
 int BaseWorld::GetPlayerIndexByNetworkClientId(int clientId) {
-	for (int i = 0; i < players.size(); i++) {
+	for (size_t i = 0; i < players.size(); i++) {
 		if (players[i]->GetNetClient()->GetNetID() != clientId) {
 			continue;
 		}
 
-		return i;
+		return (int)i;
 	}
 
 	return -1;

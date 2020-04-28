@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "../Utl.h"
 
-ssize_t Entity::entityIndexCounter = 0;
+entity_id Entity::entityIndexCounter = 0;
 
 void Entity::EndMetadataArray() {
 	metadataBlob.writeUInt8(0xff);

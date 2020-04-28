@@ -50,7 +50,7 @@ public:
 	bool isNoGravity = false;
 
 private:
-	static ssize_t entityIndexCounter;
+	static entity_id entityIndexCounter;
 
 protected:
 
@@ -67,6 +67,10 @@ protected:
 
 		// todo: finish types switch
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wswitch"
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
 		switch (type) {
 			case MetadataType::BYTE: {
 				metadataBlob.writeUInt8(val);
@@ -81,6 +85,7 @@ protected:
 				break;
 			}
 		}
+#pragma GCC diagnostic pop
 	}
 
 	void EndMetadataArray();

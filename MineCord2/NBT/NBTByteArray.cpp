@@ -3,7 +3,7 @@
 void NBTByteArray::Write(Buffer& dest) {
 	NBT::Write(dest);
 
-	dest.writeInt32_BE(array.size());
+	dest.writeInt32_BE((int32_t)array.size());
 
 	for (const auto byte : array) {
 		dest.writeInt8(byte);
