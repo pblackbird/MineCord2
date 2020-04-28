@@ -9,5 +9,5 @@ void NBTFloat::Write(Buffer& dest) {
 void NBTFloat::Read(Buffer& src) {
 	NBT::Read(src);
 
-	value - src.readFloat_BE();
+	value = src.readFloat_BE();
 }
