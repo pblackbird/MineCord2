@@ -49,6 +49,10 @@ public:
 		clientState = newState;
 	}
 
+	int GetNetID() {
+		return clientSocket;
+	}
+
 	void UpdateRecvBuffer(const std::vector<uint8_t>& buffer);
 	void OnChunk(const std::vector<uint8_t>& buffer) override;
 	void OnMessageReceived(std::vector<uint8_t>& buffer) override;

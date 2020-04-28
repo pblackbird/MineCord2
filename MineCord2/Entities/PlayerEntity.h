@@ -21,6 +21,8 @@ public:
 	PlayerEntity(const std::string&& uuid);
 
 	virtual void BuildMetadata() override;
+
 	virtual void OnTick() override;
-	virtual void OnCreated() override;
+	virtual void OnCreate() override;
+	virtual void OnDestroy() override;
 };

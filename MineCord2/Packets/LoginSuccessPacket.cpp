@@ -1,7 +1,7 @@
 #include "LoginSuccessPacket.h"
 
 void LoginSuccessPacket::Build(Buffer& dest) {
-	packetId = 0x02;
+	packetId = LOGIN_SUCCESS_PACKETID;
 
 	MinecraftTypes::WriteString(buff, uuid);
 	MinecraftTypes::WriteString(buff, playerName);

@@ -3,6 +3,7 @@
 #include "../Network/MinecraftNetworkClient.h"
 #include "../ThirdParty/BufferedIO.h"
 #include "../MinecraftTypes.h"
+#include "../VERSION.h"
 #include "PacketUtils.h"
 
 #define PKT_END() \

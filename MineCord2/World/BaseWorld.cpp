@@ -10,6 +10,8 @@ void BaseWorld::SyncPlayers() {
 }
 
 void BaseWorld::Tick() {
+	std::lock_guard<std::mutex> lock(_entityMutex);
+
 	for (std::map<ssize_t, Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
 		i->second->OnTick();
 	}
@@ -57,9 +59,35 @@ void BaseWorld::BroadcastMessage(BaseNetPacket& msg, Player* me) {
 	}
 }
 
+bool BaseWorld::DestroyEntity(entity_id id) {
+	std::lock_guard<std::mutex> lock(_entityMutex);
+
+	if (!entities[id]) {
+		return false;
+	}
+
+	entities[id]->OnDestroy();
+	entities.erase(id);
+
+	return true;
+}
+
 void BaseWorld::AddEntity(Entity* pEntity) {
+	std::lock_guard<std::mutex> lock(_entityMutex);
+
 	entities[pEntity->GetID()] = pEntity;
-	pEntity->OnCreated();
+	pEntity->OnCreate();
+}
+
+bool BaseWorld::DestroyPlayer(int networkId) {
+	int playerIndex = GetPlayerIndexByNetworkClientId(networkId);
+	if (playerIndex < 0) {
+		return false;
+	}
+
+	players.erase(players.begin() + playerIndex);
+
+	return true;
 }
 
 PlayerEntity* BaseWorld::AddPlayer(MinecraftNetworkClient* pClient, const std::string&& name, const std::string&& uuid) {
@@ -86,6 +114,30 @@ Player* BaseWorld::GetPlayerBySlaveId(entity_id slaveId) {
 	}
 
 	return nullptr;
+}
+
+Player* BaseWorld::GetPlayerByNetworkClientId(int clientId) {
+	for (const auto player : players) {
+		if (player->GetNetClient()->GetNetID() != clientId) {
+			continue;
+		}
+
+		return player;
+	}
+
+	return nullptr;
+}
+
+int BaseWorld::GetPlayerIndexByNetworkClientId(int clientId) {
+	for (int i = 0; i < players.size(); i++) {
+		if (players[i]->GetNetClient()->GetNetID() != clientId) {
+			continue;
+		}
+
+		return i;
+	}
+
+	return -1;
 }
 
 void BaseWorld::Run() {

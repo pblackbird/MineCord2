@@ -39,7 +39,7 @@ void PlayerEntity::OnTick() {
 	
 }
 
-void PlayerEntity::OnCreated() {
+void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
@@ -48,4 +48,8 @@ void PlayerEntity::OnCreated() {
 		position,
 		rotation
 	);
+}
+
+void PlayerEntity::OnDestroy() {
+
 }

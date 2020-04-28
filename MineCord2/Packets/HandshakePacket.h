@@ -9,7 +9,7 @@ public:
 	uint16_t serverPort;
 	int nextState;
 
-	int packetId = 0x00;
+	int packetId = HANDSHAKE_PACKETID;
 
 public:
 	void Parse(std::vector<uint8_t>& src) override;

@@ -1,14 +1,15 @@
 #include "MinecraftNetworkClient.h"
 #include "../Packets/BaseNetPacket.h"
 #include "../States/StatesBindings.h"
-#include "TCPServer.h"
+#include "../World/PrimaryWorld.h"
 
 MinecraftNetworkClient::MinecraftNetworkClient(int socket, uint32_t ipv4) : TCPClient(socket, ipv4) {
 	buffers.recvFeedBytes = 0;
 }
 
 MinecraftNetworkClient::~MinecraftNetworkClient() {
-
+	const auto world = PrimaryWorld::GetInstance();
+	assert(world->DestroyPlayer(clientSocket));
 }
 
 void MinecraftNetworkClient::UpdateRecvBuffer(const std::vector<uint8_t>& buffer) {

@@ -78,9 +78,11 @@
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\LivingEntity.cpp" />
     <ClCompile Include="Entities\PlayerEntity.cpp" />
+    <ClCompile Include="GamePackets\ClientChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
     <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerActions\ChatMsg.cpp" />
     <ClCompile Include="States\PlayState.cpp" />
     <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="Network\TCPClient.cpp" />
@@ -110,9 +112,12 @@
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\LivingEntity.h" />
     <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="GamePackets\ClientChatSayPacket.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
     <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
+    <ClInclude Include="PacketIdentities\1_14_4.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerActions\ChatMsg.h" />
     <ClInclude Include="States\PlayState.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="Packets\BaseNetPacket.h" />

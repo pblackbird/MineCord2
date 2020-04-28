@@ -4,7 +4,7 @@
 
 class StatusPacket : public BaseNetPacket {
 public:
-	int packetId = 0x00;
+	int packetId = STATUS_PACKETID;
 	std::string json;
 
 public:
