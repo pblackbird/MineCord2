@@ -3,7 +3,7 @@
 #include "NBT.h"
 
 
-class NBTIntArray : NBT
+class NBTIntArray : public NBT
 {
 public:
     std::vector<int> array;

@@ -2,9 +2,9 @@
 
 #include "NBT.h"
 
-class NBTList : NBT {
+class NBTList : public NBT {
 public:
-    std::vector<NBT> array;
+    std::vector<NBT*> array;
     NBTDataType type = NBTDataType::TAG_List;
 
 public:

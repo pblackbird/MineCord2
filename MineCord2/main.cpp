@@ -1,7 +1,7 @@
 #include <cstdio>
 #include "Core.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 	Core core;
-	core.PlugAndPlay();
+	core.PlugAndPlay(argc, argv);
 }

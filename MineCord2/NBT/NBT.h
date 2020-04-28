@@ -33,4 +33,7 @@ public:
 public:
 	virtual void Write(Buffer& dest);
 	virtual void Read(Buffer& src);
+
+	static NBT* BuildNBTFromType(NBTDataType gType);
+	static NBT* ReadNBTSafely(Buffer& src);
 };

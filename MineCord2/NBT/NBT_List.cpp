@@ -19,9 +19,9 @@ void NBTList::Read(Buffer& src) {
   array.resize(arraySize);
 
   for (int i = 0; i < arraySize; i++) {
-    NBT currentTag;
-    currentTag.isUnnamed = true;
-    currentTag.Read(src);
+    NBT *currentTag = NBT::ReadNBTSafely(src);
+    currentTag->isUnnamed = true;
+
     array.push_back(currentTag);
   }
 }
