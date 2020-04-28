@@ -2,10 +2,22 @@
 #include "../Entities/PlayerEntity.h"
 #include "../GamePackets/SetPlayerTransformPacket.h"
 #include "../GamePackets/JoinGamePacket.h"
+#include "../Network/NetConfig.h"
 
-void BaseWorld::SyncPlayers() {
+void BaseWorld::PingPlayers() {
+	const auto pingingTime = std::time(NULL);
+
 	for (const auto player : players) {
-		
+		if ((pingingTime - player->GetLastPing()) < 10) {
+			continue;
+		}
+
+		if ((pingingTime - player->GetLastPing()) > CONNECTION_KEEPALIVE_SECONDS && player->IsWaitingForPong()) {
+			player->GetNetClient()->Disconnect();
+			continue;
+		}
+
+		player->Ping();
 	}
 }
 
@@ -15,8 +27,6 @@ void BaseWorld::Tick() {
 	for (std::map<ssize_t, Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
 		i->second->OnTick();
 	}
-
-	SyncPlayers();
 }
 
 void BaseWorld::TickLoop() {
@@ -35,6 +45,8 @@ void BaseWorld::TickLoop() {
 		).count();
 
 		if (elapsed == 1) {
+			PingPlayers();
+
 			if (currentTPS < tickRate) {
 				logger.Warning(L"Current TPS (%llu) is less than %llu", currentTPS, tickRate);
 			}

@@ -20,6 +20,8 @@ typedef struct {
 
 class TCPClient {
 protected:
+	std::mutex _mutex;
+
 	int clientSocket;
 	uint32_t ipv4;
 	NetworkBuffers buffers;

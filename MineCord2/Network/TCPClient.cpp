@@ -2,6 +2,8 @@
 #include "TCPServer.h"
 
 void TCPClient::SendData(const std::vector<uint8_t>& buffer) {
+	std::lock_guard<std::mutex> lock(_mutex);
+
 	buffers.sendFeedBytes += buffer.size();
 
 	for (const auto byte : buffer) {
@@ -29,16 +31,13 @@ void TCPClient::SendChunk() {
 		tmpBuffer = buffers.sendBuffer;
 	}
 
-	if (tmpBuffer.size()) {
-		ssize_t result = send(clientSocket, tmpBuffer.data(), tmpBuffer.size(), MSG_NOSIGNAL);
+	ssize_t result = send(clientSocket, tmpBuffer.data(), tmpBuffer.size(), MSG_NOSIGNAL);
 
-		if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-			TCPServer::GetInstance()->ModifyEpollFD(clientSocket, EPOLLOUT);
-		}
-		else {
-			buffers.sendBuffer.clear();
-			buffers.sendFeedBytes = 0;
-		}
+	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+		TCPServer::GetInstance()->ModifyEpollFD(clientSocket, EPOLLOUT);
+	} else {
+		buffers.sendBuffer.erase(buffers.sendBuffer.begin(), buffers.sendBuffer.begin() + result);
+		buffers.sendFeedBytes -= result;
 	}
 }
 

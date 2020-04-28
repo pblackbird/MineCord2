@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <map>
+#include <ctime>
 
 #include "Network/MinecraftNetworkClient.h"
 #include "Entities/PlayerEntity.h"
@@ -15,19 +16,41 @@ private:
 	PlayerEntity* pSlave;
 	MinecraftNetworkClient* pNetClient;
 
+	uint64_t lastKeepAlive = 0;
+	bool isWaitingForPong = false;
+
+	Logger playerLogger;
+
+private:
+	void DispatchServiceMessage(BaseNetPacket& msg);
+
+public:
+	void Join();
+	void SetTransform(Point3D position, Angle rotation, int teleportId = 0);
+	
+	void Ping();
+
 public:
 	Player(MinecraftNetworkClient* pClient) {
 		pNetClient = pClient;
+		lastKeepAlive = std::time(NULL);
+		playerLogger.SetTag(pClient->GetUsername());
 	}
 
 	~Player();
 
-	void Join();
-	void SetTransform(Point3D position, Angle rotation, int teleportId = 0);
 	void OnMsg(BaseNetPacket& msg);
 
 	void SetSlaveEntity(PlayerEntity* pEnt) {
 		pSlave = pEnt;
+	}
+
+	bool IsWaitingForPong() {
+		return isWaitingForPong;
+	}
+
+	uint64_t GetLastPing() {
+		return lastKeepAlive;
 	}
 
 	PlayerEntity* GetSlaveEntity() {

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GamePackets/JoinGamePacket.h"
+#include "GamePackets/KeepAlivePacket.h"
 #include "GamePackets/SetPlayerTransformPacket.h"
 #include "World/PrimaryWorld.h"
 
@@ -13,6 +14,26 @@ Player::~Player() {
 	PrimaryWorld::GetInstance()->DestroyEntity(
 		pSlave->GetID()
 	);
+}
+
+void Player::DispatchServiceMessage(BaseNetPacket& msg) {
+	switch (msg.packetId) {
+		case KEEP_ALIVE_CLIENT_PACKETID: {
+			playerLogger.Info(L"Keep alive pktid = %i", msg.packetId);
+
+			if (!isWaitingForPong) {
+				playerLogger.Warning(L"Got pong response, but ping was not requested!");
+				return;
+			}
+
+			playerLogger.Info(L"Got normal ping response");
+
+			isWaitingForPong = false;
+			lastKeepAlive = std::time(NULL);
+
+			break;
+		}
+	}
 }
 
 void Player::Join() {
@@ -45,7 +66,18 @@ void Player::SetTransform(Point3D position, Angle rotation, int teleportId) {
 	pNetClient->Invoke(transformMsg);
 }
 
+void Player::Ping() {
+	KeepAlivePacket keepAliveMsg;
+	keepAliveMsg.keepAliveId = std::time(NULL);
+
+	pNetClient->Invoke(keepAliveMsg);
+
+	isWaitingForPong = true;
+}
+
 void Player::OnMsg(BaseNetPacket& msg) {
+	DispatchServiceMessage(msg);
+
 	if (!playerActionHandlers[msg.packetId]) {
 		return;
 	}

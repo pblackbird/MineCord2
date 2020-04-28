@@ -46,7 +46,7 @@ public:
 	inline void ModifyEpollFD(int fd, int events) {
 		struct epoll_event event;
 		event.data.fd = fd;
-		event.events = events | EPOLLET;
+		event.events = events;
 
 		int result = epoll_ctl(epollFD, EPOLL_CTL_MOD, fd, &event);
 

@@ -12,6 +12,7 @@ void TCPServer::EpollLoop() {
 
 			if (event->events & EPOLLERR) {
 				logger.Error(L"EPOLL event error on socket: %i | %i", event->data.fd, errno);
+				DisconnectClient(event->data.fd);
 				continue;
 			}
 
@@ -75,7 +76,7 @@ void TCPServer::ProcessServerEpoll() {
 	DisableSocketBlocking(clientSocket);
 	SetBuffersCapacity(clientSocket, SEND_BUFFER_SIZE, RECV_BUFFER_SIZE);
 
-	AddEpollFD(clientSocket, EPOLLIN | EPOLLOUT | EPOLLHUP | EPOLLERR | EPOLLET);
+	AddEpollFD(clientSocket, EPOLLIN | EPOLLOUT | EPOLLHUP | EPOLLERR);
 
 	std::wstring ip = NetworkUtils::FormatIPv4(clientAddress.sin_addr.s_addr);
 	logger.Info(L"New connection from %ls:%i", ip.c_str(), clientAddress.sin_port);

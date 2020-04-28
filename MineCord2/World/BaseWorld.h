@@ -31,7 +31,7 @@ protected:
 	Logger logger;
 
 private:
-	void SyncPlayers();
+	void PingPlayers();
 
 public:
 	BaseWorld() {

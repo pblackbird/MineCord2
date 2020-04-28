@@ -80,6 +80,7 @@
     <ClCompile Include="Entities\PlayerEntity.cpp" />
     <ClCompile Include="GamePackets\ClientChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
+    <ClCompile Include="GamePackets\KeepAlivePacket.cpp" />
     <ClCompile Include="GamePackets\ServerChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Entities\PlayerEntity.h" />
     <ClInclude Include="GamePackets\ClientChatSayPacket.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
+    <ClInclude Include="GamePackets\KeepAlivePacket.h" />
     <ClInclude Include="GamePackets\ServerChatSayPacket.h" />
     <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
     <ClInclude Include="PacketIdentities\1_14_4.h" />
