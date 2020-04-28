@@ -9,7 +9,7 @@ MinecraftNetworkClient::MinecraftNetworkClient(int socket, uint32_t ipv4) : TCPC
 
 MinecraftNetworkClient::~MinecraftNetworkClient() {
 	const auto world = PrimaryWorld::GetInstance();
-	assert(world->DestroyPlayer(clientSocket));
+	world->DestroyPlayer(clientSocket);
 }
 
 void MinecraftNetworkClient::UpdateRecvBuffer(const std::vector<uint8_t>& buffer) {
