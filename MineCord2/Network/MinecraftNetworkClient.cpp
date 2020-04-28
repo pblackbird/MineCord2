@@ -1,14 +1,20 @@
 #include "MinecraftNetworkClient.h"
 #include "../Packets/BaseNetPacket.h"
 #include "../States/StatesBindings.h"
+#include "TCPServer.h"
 
 MinecraftNetworkClient::MinecraftNetworkClient(int socket, uint32_t ipv4) : TCPClient(socket, ipv4) {
 	buffers.recvFeedBytes = 0;
 }
 
+MinecraftNetworkClient::~MinecraftNetworkClient() {
+
+}
+
 void MinecraftNetworkClient::UpdateRecvBuffer(const std::vector<uint8_t>& buffer) {
 	buffers.recvBuffer.clear();
-	buffers.recvBuffer = buffer;
+	buffers.recvBuffer.resize(buffer.size());
+	std::copy(buffer.begin(), buffer.end(), buffers.recvBuffer.begin());
 
 	buffers.recvFeedBytes = 0;
 
@@ -57,8 +63,6 @@ void MinecraftNetworkClient::OnChunk(const std::vector<uint8_t>& buffer) {
 void MinecraftNetworkClient::OnMessageReceived(std::vector<uint8_t>& buffer) {
 	BaseNetPacket pkt;
 	pkt.Parse(buffer);
-
-	logger.Info(L"Received full packet with len %i and id %i", buffer.size(), pkt.packetId);
 
 	const auto state = StatesBindings::GetInstance()->GetBinding(clientState);
 	state->Process(this, pkt);

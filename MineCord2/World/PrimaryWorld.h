@@ -2,14 +2,14 @@
 
 #include "BaseWorld.h"
 
-class TestWorld : public BaseWorld {
+class PrimaryWorld : public BaseWorld {
 private:
-	static TestWorld* pSingleton;
+	static PrimaryWorld* pSingleton;
 
 public:
-	static TestWorld* GetInstance() {
+	static PrimaryWorld* GetInstance() {
 		if (!pSingleton) {
-			pSingleton = new TestWorld();
+			pSingleton = new PrimaryWorld();
 		}
 
 		return pSingleton;

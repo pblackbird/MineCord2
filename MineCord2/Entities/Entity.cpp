@@ -7,19 +7,17 @@ void Entity::EndMetadataArray() {
 	metadataBlob.writeUInt8(0xff);
 }
 
-Entity::Entity(ssize_t id, const std::string&& uuid) {
+Entity::Entity(const std::string&& uuid) {
 	this->uuid = uuid;
 
-	entityId = id;
-	entityIndex = entityIndexCounter++;
+	entityId = entityIndexCounter++;
 	entityName = "Unnamed creature";
 }
 
-Entity::Entity(ssize_t id) {
+Entity::Entity() {
 	uuid = Utl::GenerateUUID();
 
-	entityId = id;
-	entityIndex = entityIndexCounter++;
+	entityId = entityIndexCounter++;
 	entityName = "Unnamed creature";
 }
 

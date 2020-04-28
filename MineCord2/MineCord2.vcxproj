@@ -76,8 +76,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Entities\PlayerControlledEntity.cpp" />
+    <ClCompile Include="Entities\LivingEntity.cpp" />
+    <ClCompile Include="Entities\PlayerEntity.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
+    <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="States\PlayState.cpp" />
     <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="Network\TCPClient.cpp" />
@@ -101,12 +104,15 @@
     <ClCompile Include="MinecraftTypes.cpp" />
     <ClCompile Include="Utl.cpp" />
     <ClCompile Include="World\BaseWorld.cpp" />
-    <ClCompile Include="World\TestWorld.cpp" />
+    <ClCompile Include="World\PrimaryWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Entity.h" />
-    <ClInclude Include="Entities\PlayerControlledEntity.h" />
+    <ClInclude Include="Entities\LivingEntity.h" />
+    <ClInclude Include="Entities\PlayerEntity.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
+    <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="States\PlayState.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="Packets\BaseNetPacket.h" />
@@ -133,7 +139,7 @@
     <ClInclude Include="MinecraftTypes.h" />
     <ClInclude Include="VERSION.h" />
     <ClInclude Include="World\BaseWorld.h" />
-    <ClInclude Include="World\TestWorld.h" />
+    <ClInclude Include="World\PrimaryWorld.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

@@ -8,11 +8,13 @@
 #include <sys/epoll.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <signal.h>
 #include <strings.h>
 #include <cstdint>
 #include <thread>
 #include <vector>
 #include <string.h>
+#include <cassert>
 
 #include "NetworkUtils.h"
 #include "../Logger.h"
@@ -29,7 +31,7 @@ private:
 	std::thread epollWorker;
 	Logger logger;
 
-	TCPClient *clients[MAX_CLIENTS];
+	TCPClient* clients[MAX_CLIENTS];
 	epoll_event epollEvents[MAX_CLIENTS + 1]; // +1 to include server's socket FD
 
 public:
@@ -39,6 +41,18 @@ public:
 		}
 
 		return instance;
+	}
+
+	inline void ModifyEpollFD(int fd, int events) {
+		struct epoll_event event;
+		event.data.fd = fd;
+		event.events = events | EPOLLET;
+
+		int result = epoll_ctl(epollFD, EPOLL_CTL_MOD, fd, &event);
+
+		if (result < 0) {
+			logger.Error(L"epoll_ctl() with EPOLL_CTL_MOD failed: %i", fd);
+		}
 	}
 
 private:
@@ -69,6 +83,8 @@ private:
 	inline void DisableSocketBlocking(int socket) {
 		fcntl(socket, F_SETFL, fcntl(socket, F_GETFD, 0) | O_NONBLOCK);
 	}
+
+	void SetBuffersCapacity(int socket, size_t sendBufSize, size_t recvBufSize);
 
 	void InitializeEpoll();
 	void ProcessServerEpoll();

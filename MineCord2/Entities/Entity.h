@@ -3,6 +3,7 @@
 #include <string>
 #include "../ThirdParty/BufferedIO.h"
 #include "../MinecraftTypes.h"
+#include "../Transformable.h"
 
 enum class MetadataType : int {
 	BYTE,
@@ -34,10 +35,9 @@ enum class BaseMetadataIndex : uint8_t {
 	NO_GRAVITY = 5
 };
 
-class Entity {
+class Entity : public Transformable {
 protected:
-	ssize_t entityId;
-	ssize_t entityIndex;
+	entity_id entityId;
 	std::string entityName, uuid;
 	Buffer metadataBlob;
 
@@ -89,10 +89,11 @@ public:
 	virtual void BuildMetadata();
 
 public:
-	Entity(ssize_t id, const std::string&& uuid);
-	Entity(ssize_t id);
+	Entity(const std::string&& uuid);
+	Entity();
 
 	virtual void OnTick() = 0;
+	virtual void OnCreated() = 0;
 
 	std::vector<uint8_t> GetMetadataBlob();
 
@@ -108,7 +109,7 @@ public:
 		entityName = name;
 	}
 
-	ssize_t GetID() {
+	entity_id GetID() {
 		return entityId;
 	}
 };

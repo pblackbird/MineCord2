@@ -1,7 +1,9 @@
 #include "LoginState.h"
 #include "../Packets/LoginStartPacket.h"
 #include "../Packets/LoginSuccessPacket.h"
+#include "../GamePackets/JoinGamePacket.h"
 #include "../Utl.h"
+#include "../World/PrimaryWorld.h"
 
 void LoginState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) {
 	Logger logger(L"Auth");
@@ -28,5 +30,12 @@ void LoginState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) 
 	resp.uuid = uuid;
 
 	client->Invoke(resp);
+
+	PrimaryWorld::GetInstance()->AddPlayer(
+		client,
+		std::move(loginRequest.playerName),
+		std::move(uuid)
+	);
+
 	client->SwitchState(ClientState::PLAY);
 }

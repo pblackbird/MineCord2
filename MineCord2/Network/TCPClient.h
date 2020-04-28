@@ -32,7 +32,14 @@ public:
 		logger.SetTag(NetworkUtils::FormatIPv4(ipv4));
 	};
 
-	ssize_t SendData(const std::vector<uint8_t>& buffer);
+	virtual ~TCPClient() {};
+
+	uint32_t GetIPv4() {
+		return ipv4;
+	}
+
+	void SendData(const std::vector<uint8_t>& buffer);
+	void SendChunk();
 
 	virtual void OnChunk(const std::vector<uint8_t>& buffer) = 0;
 	virtual void OnMessageReceived(std::vector<uint8_t>& buffer) = 0;

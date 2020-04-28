@@ -17,12 +17,13 @@ enum class ClientState : int {
 class BaseNetPacket;
 
 class MinecraftNetworkClient : public TCPClient {
-private:
+protected:
 	ClientState clientState = ClientState::HANDSHAKE;
 	std::wstring username;
 
 public:
 	MinecraftNetworkClient(int socket, uint32_t ipv4);
+	virtual ~MinecraftNetworkClient() override;
 
 	template<class T>
 	void Invoke(T& pkt) {

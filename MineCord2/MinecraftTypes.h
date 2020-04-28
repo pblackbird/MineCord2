@@ -5,6 +5,8 @@
 
 #include "ThirdParty/BufferedIO.h"
 
+typedef int entity_id;
+
 enum class ServerChatMessageType : uint8_t {
 	CHATBOX = 0,
 	SYSTEM = 1,

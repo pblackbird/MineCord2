@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "States/StatesBindings.h"
-#include "World/TestWorld.h"
+#include "World/PrimaryWorld.h"
 
 void Core::ShowWelcomeMessage() {
 	logger.Info(L"Welcome to MineCord v%ls", VERSION);
@@ -12,8 +12,8 @@ void Core::Boot() {
 
 	StatesBindings::GetInstance()->Fill();
 
-	const auto testWorld = TestWorld::GetInstance();
-	testWorld->Run();
+	const auto world = PrimaryWorld::GetInstance();
+	world->Run();
 
 	const auto tcpServer = TCPServer::GetInstance();
 	tcpServer->Start(25565);

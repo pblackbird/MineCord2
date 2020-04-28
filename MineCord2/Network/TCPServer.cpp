@@ -11,7 +11,7 @@ void TCPServer::EpollLoop() {
 			const auto event = &epollEvents[i];
 
 			if (event->events & EPOLLERR) {
-				logger.Error(L"EPOLL event error on socket: %i", event->data.fd);
+				logger.Error(L"EPOLL event error on socket: %i | %i", event->data.fd, errno);
 				continue;
 			}
 
@@ -25,8 +25,27 @@ void TCPServer::EpollLoop() {
 }
 
 void TCPServer::DisconnectClient(int fd) {
+	const auto client = clients[fd];
+	assert(client);
+	
+	logger.Info(L"Disconnecting %ls ...", NetworkUtils::FormatIPv4(client->GetIPv4()).c_str());
+
 	close(fd);
-	delete clients[fd];
+	delete client;
+}
+
+void TCPServer::SetBuffersCapacity(int socket, size_t sendBufSize, size_t recvBufSize) {
+	int result = setsockopt(socket, SOL_SOCKET, SO_SNDBUF, &sendBufSize, sizeof(sendBufSize));
+	if (result < 0) {
+		logger.Error(L"setsockopt for SO_SNDBUF failed: %i", errno);
+		exit(1);
+	}
+
+	result = setsockopt(socket, SOL_SOCKET, SO_RCVBUF, &recvBufSize, sizeof(recvBufSize));
+	if (result < 0) {
+		logger.Error(L"setsockopt for SO_RCVBUF failed: %i", errno);
+		exit(1);
+	}
 }
 
 void TCPServer::InitializeEpoll() {
@@ -54,6 +73,8 @@ void TCPServer::ProcessServerEpoll() {
 	}
 
 	DisableSocketBlocking(clientSocket);
+	SetBuffersCapacity(clientSocket, SEND_BUFFER_SIZE, RECV_BUFFER_SIZE);
+
 	AddEpollFD(clientSocket, EPOLLIN | EPOLLOUT | EPOLLHUP | EPOLLERR | EPOLLET);
 
 	std::wstring ip = NetworkUtils::FormatIPv4(clientAddress.sin_addr.s_addr);
@@ -64,7 +85,7 @@ void TCPServer::ProcessServerEpoll() {
 
 void TCPServer::ProcessClientEpoll(epoll_event* pEvent) {
 	if (pEvent->events & EPOLLIN) {
-		uint8_t buf[1024];
+		uint8_t buf[RECV_BUFFER_SIZE];
 		ssize_t numBytesRead = recv(pEvent->data.fd, buf, sizeof(buf), 0);
 
 		if (numBytesRead < -1) {
@@ -87,6 +108,10 @@ void TCPServer::ProcessClientEpoll(epoll_event* pEvent) {
 		memcpy(resizedBuf.data(), buf, numBytesRead);
 
 		clients[pEvent->data.fd]->OnChunk(resizedBuf);
+	}
+
+	if (pEvent->events & EPOLLOUT) {
+		clients[pEvent->data.fd]->SendChunk();
 	}
 }
 

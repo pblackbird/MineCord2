@@ -6,7 +6,6 @@
 #include "Network/TCPServer.h"
 
 class Core {
-
 private:
 	Logger logger;
 
