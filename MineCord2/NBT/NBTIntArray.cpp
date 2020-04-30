@@ -1,6 +1,8 @@
 #include "NBTIntArray.h"
 
 void NBTIntArray::Write(Buffer& dest) {
+  type = NBTDataType::TAG_Int_Array;
+
   NBT::Write(dest);
 
   dest.writeInt32_BE((int32_t)array.size());

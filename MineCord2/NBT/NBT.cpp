@@ -14,6 +14,7 @@
 #include "NBTFloat.h"
 #include "NBTLong.h"
 #include "NBTDouble.h"
+#include <iostream>
 
 void NBT::Write(Buffer& dest) {
 	dest.writeUInt8((uint8_t)type);

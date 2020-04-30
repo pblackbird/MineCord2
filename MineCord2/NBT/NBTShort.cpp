@@ -1,6 +1,8 @@
 #include "NBTShort.h"
 
 void NBTShort::Write(Buffer& dest) {
+	type = NBTDataType::TAG_Short;
+
 	NBT::Write(dest);
 
 	dest.writeInt16_BE(value);

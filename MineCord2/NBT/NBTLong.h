@@ -5,9 +5,12 @@
 class NBTLong : public NBT {
 public:
 	int64_t value;
-	NBTDataType type = NBTDataType::TAG_Int;
 
 public:
+	NBTLong() {
+		type = NBTDataType::TAG_Long;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

@@ -78,11 +78,15 @@
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\LivingEntity.cpp" />
     <ClCompile Include="Entities\PlayerEntity.cpp" />
+    <ClCompile Include="GamePackets\ChunkDataPacket.cpp" />
     <ClCompile Include="GamePackets\ClientChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
     <ClCompile Include="GamePackets\KeepAlivePacket.cpp" />
     <ClCompile Include="GamePackets\ServerChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
+    <ClCompile Include="Map\Chunk.cpp" />
+    <ClCompile Include="Map\ChunkSection.cpp" />
+    <ClCompile Include="Map\TestMapManager.cpp" />
     <ClCompile Include="NBT\NBT.cpp" />
     <ClCompile Include="NBT\NBTByte.cpp" />
     <ClCompile Include="NBT\NBTByteArray.cpp" />
@@ -128,11 +132,15 @@
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\LivingEntity.h" />
     <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="GamePackets\ChunkDataPacket.h" />
     <ClInclude Include="GamePackets\ClientChatSayPacket.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
     <ClInclude Include="GamePackets\KeepAlivePacket.h" />
     <ClInclude Include="GamePackets\ServerChatSayPacket.h" />
     <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
+    <ClInclude Include="Map\Chunk.h" />
+    <ClInclude Include="Map\ChunkSection.h" />
+    <ClInclude Include="Map\TestMapManager.h" />
     <ClInclude Include="NBT\NBT.h" />
     <ClInclude Include="NBT\NBTByte.h" />
     <ClInclude Include="NBT\NBTByteArray.h" />
@@ -147,6 +155,7 @@
     <ClInclude Include="NBT\NBTString.h" />
     <ClInclude Include="NBT\NBT_List.h" />
     <ClInclude Include="NBT\Tests\NBT_Test.h" />
+    <ClInclude Include="PacketIdentities\1_12_2.h" />
     <ClInclude Include="PacketIdentities\1_14_4.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerActions\ChatMsg.h" />
@@ -176,6 +185,7 @@
     <ClInclude Include="MinecraftTypes.h" />
     <ClInclude Include="VERSION.h" />
     <ClInclude Include="World\BaseWorld.h" />
+    <ClInclude Include="Map\IMapManager.h" />
     <ClInclude Include="World\PrimaryWorld.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

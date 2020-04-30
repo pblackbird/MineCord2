@@ -5,9 +5,12 @@
 class NBTShort : public NBT {
 public:
 	int16_t value;
-	NBTDataType type = NBTDataType::TAG_Short;
 
 public:
+	NBTShort() {
+		type = NBTDataType::TAG_Short;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

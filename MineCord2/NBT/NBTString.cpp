@@ -1,6 +1,8 @@
 #include "NBTString.h"
 
 void NBTString::Write(Buffer& dest) {
+	type = NBTDataType::TAG_String;
+
 	NBT::Write(dest);
 
 	dest.writeUInt16_BE((uint16_t)value.length());

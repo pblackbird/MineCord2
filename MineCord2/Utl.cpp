@@ -68,7 +68,56 @@ bool Utl::Decompress(std::vector<uint8_t>& in, std::vector<uint8_t>& out) {
 	return true;
 }
 
+bool Utl::Compress(std::vector<uint8_t>& in, std::vector<uint8_t>& out, CompressionMethod method) {
+	z_stream stream;
+	stream.zalloc = Z_NULL;
+	stream.zfree = Z_NULL;
+	stream.opaque = Z_NULL;
+	stream.next_in = in.data();
+	stream.avail_in = (uInt)in.size();
+
+	int windowSizeInBits = 15;
+
+	if (method == CompressionMethod::GZIP) {
+		windowSizeInBits += 16;
+	}
+
+	if (deflateInit2(
+		&stream, 
+		Z_DEFAULT_COMPRESSION,
+		Z_DEFLATED,
+		windowSizeInBits,
+		8,
+		Z_DEFAULT_STRATEGY
+	) != Z_OK) {
+		return false;
+	}
+
+	int zlibResult = Z_OK;
+	int len = 0;
+
+	do {
+		out.resize(len + INFLATE_CHUNK_SIZE);
+
+		stream.avail_out = INFLATE_CHUNK_SIZE;
+		stream.next_out = out.data() + len;
+
+		if (deflate(&stream, Z_FINISH) == Z_STREAM_ERROR) {
+			return false;
+		}
+
+		len += INFLATE_CHUNK_SIZE - stream.avail_out;
+
+	} while (stream.avail_out == 0);
+
+	deflateEnd(&stream);
+
+	return true;
+}
+
 std::string Utl::GenerateUUID() {
+	Logger logger(L"UUID generator");
+
 	uint8_t uuid[36];
 	bool success = ReadFileOnceSync("/proc/sys/kernel/random/uuid", uuid, 36);
 

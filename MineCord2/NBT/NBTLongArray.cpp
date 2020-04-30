@@ -1,13 +1,15 @@
 #include "NBTLongArray.h"
 
 void NBTLongArray::Write(Buffer& dest) {
-  NBT::Write(dest);
+    type = NBTDataType::TAG_Long_Array;
 
-  dest.writeInt32_BE((int32_t)array.size());
+    NBT::Write(dest);
 
-  for (const auto byte : array) {
-    dest.writeInt64_BE(byte);
-  }
+    dest.writeInt32_BE((int32_t)array.size());
+
+    for (const auto byte : array) {
+        dest.writeInt64_BE(byte);
+    }
 }
 
 void NBTLongArray::Read(Buffer& src) {

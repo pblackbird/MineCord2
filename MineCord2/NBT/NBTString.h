@@ -5,9 +5,12 @@
 class NBTString : public NBT {
 public:
 	std::string value;
-	NBTDataType type = NBTDataType::TAG_String;
 
 public:
+	NBTString() {
+		type = NBTDataType::TAG_String;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

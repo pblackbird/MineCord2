@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 #include "LivingEntity.h"
 #include "../Network/MinecraftNetworkClient.h"
 

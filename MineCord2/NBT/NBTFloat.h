@@ -5,9 +5,12 @@
 class NBTFloat : public NBT {
 public:
 	float value;
-	NBTDataType type = NBTDataType::TAG_Float;
 
 public:
+	NBTFloat() {
+		type = NBTDataType::TAG_Float;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

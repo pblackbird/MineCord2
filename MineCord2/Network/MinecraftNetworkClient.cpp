@@ -2,6 +2,7 @@
 #include "../Packets/BaseNetPacket.h"
 #include "../States/StatesBindings.h"
 #include "../World/PrimaryWorld.h"
+#include "TCPServer.h"
 
 MinecraftNetworkClient::MinecraftNetworkClient(int socket, uint32_t ipv4) : TCPClient(socket, ipv4) {
 	buffers.recvFeedBytes = 0;

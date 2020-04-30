@@ -5,9 +5,12 @@
 class NBTByte : public NBT {
 public:
 	int8_t value;
-	NBTDataType type = NBTDataType::TAG_Byte;
 
 public:
+	NBTByte() {
+		type = NBTDataType::TAG_Byte;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

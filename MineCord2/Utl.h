@@ -8,7 +8,10 @@
 
 #define INFLATE_CHUNK_SIZE 4096
 
-static Logger logger(L"Utl");
+enum class CompressionMethod {
+	GZIP,
+	INFLATE
+};
 
 namespace Utl {
 	std::string GenerateUUID();
@@ -20,4 +23,5 @@ namespace Utl {
 	ssize_t GetFileSize(const std::string& path);
 
 	bool Decompress(std::vector<uint8_t>& in, std::vector<uint8_t>& out);
+	bool Compress(std::vector<uint8_t>& in, std::vector<uint8_t>& out, CompressionMethod method);
 }

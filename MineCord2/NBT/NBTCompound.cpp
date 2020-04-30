@@ -1,4 +1,5 @@
 #include "NBTCompound.h"
+#include <iostream>
 
 void NBTCompound::Write(Buffer& dest) {
 	NBT::Write(dest);

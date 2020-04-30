@@ -6,10 +6,13 @@
 class NBTLongArray : public NBT
 {
 public:
-    std::vector<long> array;
-    NBTDataType type = NBTDataType::TAG_Long_Array;
+    std::vector<int64_t> array;
 
 public:
+    NBTLongArray() {
+        type = NBTDataType::TAG_Long_Array;
+    }
+
     virtual void Write(Buffer& dest) override;
     virtual void Read(Buffer& src) override;
 };

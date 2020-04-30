@@ -1,6 +1,8 @@
 #include "NBTByte.h"
 
 void NBTByte::Write(Buffer& dest) {
+	type = NBTDataType::TAG_Byte;
+
 	NBT::Write(dest);
 
 	dest.writeInt8(value);

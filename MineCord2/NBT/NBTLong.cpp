@@ -1,6 +1,8 @@
 #include "NBTLong.h"
 
 void NBTLong::Write(Buffer& dest) {
+	type = NBTDataType::TAG_Int;
+
 	NBT::Write(dest);
 
 	dest.writeInt64_BE(value);

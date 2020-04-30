@@ -1,6 +1,8 @@
 #include "NBTFloat.h"
 
 void NBTFloat::Write(Buffer& dest) {
+	type = NBTDataType::TAG_Float;
+
 	NBT::Write(dest);
 
 	dest.writeFloat_BE(value);

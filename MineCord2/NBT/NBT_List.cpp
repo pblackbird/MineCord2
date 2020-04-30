@@ -1,6 +1,8 @@
 #include "NBT_List.h"
 
 void NBTList::Write(Buffer& dest) {
+  type = NBTDataType::TAG_List;
+
   NBT::Write(dest);
 
   dest.writeInt32_BE((int32_t)array.size());

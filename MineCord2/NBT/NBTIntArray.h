@@ -7,9 +7,12 @@ class NBTIntArray : public NBT
 {
 public:
     std::vector<int> array;
-    NBTDataType type = NBTDataType::TAG_Int_Array;
 
 public:
+    NBTIntArray() {
+        type = NBTDataType::TAG_Int_Array;
+    }
+
     virtual void Write(Buffer& dest) override;
     virtual void Read(Buffer& src) override;
 };

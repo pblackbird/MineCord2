@@ -5,9 +5,12 @@
 class NBTByteArray : public NBT {
 public:
 	std::vector<int8_t> array;
-	NBTDataType type = NBTDataType::TAG_Byte_Array;
 
 public:
+	NBTByteArray() {
+		type = NBTDataType::TAG_Byte_Array;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

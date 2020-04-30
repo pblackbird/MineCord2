@@ -11,8 +11,6 @@ void StatesBindings::Fill() {
 	bindingMap[ClientState::STATUS] = new StatusState();
 	bindingMap[ClientState::LOGIN] = new LoginState();
 	bindingMap[ClientState::PLAY] = new PlayState();
-
-	logger.Info(L"States bindings loaded!");
 }
 
 BaseClientState* StatesBindings::GetBinding(ClientState state) {

@@ -7,9 +7,12 @@ typedef void(*OnNBTWalkTree_t)(NBT*);
 class NBTCompound : public NBT {
 public:
 	std::vector<NBT*> tags;
-	NBTDataType type = NBTDataType::TAG_Compound;
 
 public:
+	NBTCompound() {
+		type = NBTDataType::TAG_Compound;
+	}
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 

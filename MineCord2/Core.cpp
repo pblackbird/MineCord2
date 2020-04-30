@@ -4,6 +4,8 @@
 
 #include "NBT/Tests/NBT_Test.h"
 
+Core* Core::pSingleton;
+
 void Core::ShowWelcomeMessage() {
 	logger.Info(L"Welcome to MineCord v%ls", VERSION);
 }
@@ -55,6 +57,14 @@ void Core::ParseCmdLine(int argc, char* argv[]) {
 
 		cmdLine.push_back(arg);
 	}
+}
+
+Core* Core::GetInstance() {
+	if (!pSingleton) {
+		pSingleton = new Core();
+	}
+
+	return pSingleton;
 }
 
 bool Core::GetCommandLineArgument(const std::string&& name, std::string& result) {

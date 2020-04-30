@@ -14,6 +14,8 @@ private:
 	Logger logger;
 	std::vector<CmdArg> cmdLine;
 
+	static Core* pSingleton;
+
 private:
 	void ShowWelcomeMessage();
 	void Boot();
@@ -22,6 +24,8 @@ private:
 	void ParseCmdLine(int argc, char* argv[]);
 	
 public:
+	static Core* GetInstance();
+
 	bool GetCommandLineArgument(const std::string&& name, std::string& result);
 	bool HasCmdArg(const std::string& name);
 

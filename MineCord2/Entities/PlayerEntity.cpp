@@ -1,7 +1,7 @@
 #include "PlayerEntity.h"
+#include "../GamePackets/ChunkDataPacket.h"
 #include "../World/PrimaryWorld.h"
-
-#include <cassert>
+#include "../Map/TestMapManager.h"
 
 PlayerEntity::PlayerEntity(const std::string&& uuid) : LivingEntity() {
 	this->uuid = uuid;

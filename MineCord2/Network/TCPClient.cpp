@@ -12,6 +12,8 @@ void TCPClient::SendData(const std::vector<uint8_t>& buffer) {
 }
 
 void TCPClient::SendChunk() {
+	std::lock_guard<std::mutex> lock(_mutex);
+
 	assert(buffers.sendFeedBytes >= buffers.sendBuffer.size());
 
 	std::vector<uint8_t> tmpBuffer;
@@ -20,15 +22,12 @@ void TCPClient::SendChunk() {
 		for (int i = 0; i < SEND_BUFFER_SIZE; i++) {
 			tmpBuffer.push_back(buffers.sendBuffer[i]);
 		}
-
-		buffers.sendBuffer.erase(
-			buffers.sendBuffer.begin(),
-			buffers.sendBuffer.begin() + SEND_BUFFER_SIZE
-		);
-
-		buffers.sendFeedBytes -= SEND_BUFFER_SIZE;
 	} else {
 		tmpBuffer = buffers.sendBuffer;
+	}
+
+	if (tmpBuffer.size() == 0) {
+		return;
 	}
 
 	ssize_t result = send(clientSocket, tmpBuffer.data(), tmpBuffer.size(), MSG_NOSIGNAL);
