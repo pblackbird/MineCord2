@@ -8,5 +8,9 @@ public:
 	std::string uuid;
 
 public:
+	LoginSuccessPacket() {
+		isCompressed = true;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };

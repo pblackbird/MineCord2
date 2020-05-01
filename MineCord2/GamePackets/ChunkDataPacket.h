@@ -8,5 +8,9 @@ public:
 	Chunk chunk;
 
 public:
+	ChunkDataPacket() {
+		isCompressed = true;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };

@@ -11,7 +11,6 @@ void TCPServer::EpollLoop() {
 			const auto event = &epollEvents[i];
 
 			if (event->events & EPOLLERR) {
-				logger.Error(L"EPOLL event error on socket: %i | %i", event->data.fd, errno);
 				DisconnectClient(event->data.fd);
 				continue;
 			}

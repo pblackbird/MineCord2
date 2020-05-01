@@ -17,17 +17,23 @@ void MinecraftTypes::WriteString(Buffer& buff, char str[], int size) {
     buff.writeStr(str);
 }
 
-void MinecraftTypes::WriteVarInt(Buffer& buff, int val) {
+void MinecraftTypes::WriteVarInt(Buffer& buff, int val, int* bytesWritten) {
+    int numWritten = 0;
+
     do {
         uint8_t temp = (uint8_t)(val & 0b01111111);
         val >>= 7;
 
         if (val != 0) {
             temp |= 0b10000000;
+            numWritten++;
         }
 
         buff.writeUInt8(temp);
     } while (val != 0);
+
+    if(bytesWritten != nullptr)
+        *bytesWritten = numWritten;
 }
 
 int MinecraftTypes::ReadVarInt(Buffer& buff, int* bytesRead) {

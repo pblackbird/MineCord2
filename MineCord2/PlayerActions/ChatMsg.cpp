@@ -23,28 +23,35 @@ void OnPlayerChatMessage(Player* player, BaseNetPacket& msg) {
 	);
 
 	if (chatMsg.text == "/chunk") {
-		Chunk testChunk;
-		testChunk.SetPosition({ 10, 5 });
+		for (int x = 0; x < 10; x++) {
+			for (int z = 0; z < 10; z++) {
+				Chunk testChunk;
+				testChunk.SetPosition({ x, z });
 
-		// Fill 16 chunk sections per chunk
-		for (int i = 0; i < 16; i++) {
-			ChunkSection section;
+				// Fill 16 chunk sections per chunk
+				for (int i = 0; i < 16; i++) {
+					ChunkSection section;
 
-			// Fill 16 blocks per chunk section
-			for (int j = 0; j < 16; j++) {
-				Block testBlock;
-				testBlock.palette = 1;
+					// Fill 16 blocks per chunk section
+					for (int j = 0; j < 4096; j++) {
+						Block testBlock;
+						testBlock.palette = 0b0000000010000;
 
-				section.SetBlock(j, testBlock);
+						section.SetBlock(j, testBlock);
+					}
+
+					testChunk.SetSection(i, section);
+				}
+
+				ChunkDataPacket chunkMsg;
+				chunkMsg.chunk = testChunk;
+
+				player->GetNetClient()->Invoke(chunkMsg);
 			}
-
-			testChunk.SetSection(i, section);
+			
 		}
 
-		ChunkDataPacket chunkMsg;
-		chunkMsg.chunk = testChunk;
-
-		player->GetNetClient()->Invoke(chunkMsg);
+		player->SetPlayerPositionChunk({0, 0});
 
 		return;
 	}

@@ -31,6 +31,8 @@ public:
 	NBTDataType type;
 
 public:
+	virtual ~NBT() {};
+
 	virtual void Write(Buffer& dest);
 	virtual void Read(Buffer& src);
 

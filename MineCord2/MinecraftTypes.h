@@ -28,7 +28,7 @@ enum class Dimension : int {
 
 namespace MinecraftTypes {
 	int ReadVarInt(Buffer& buff, int* bytesRead = nullptr);
-	void WriteVarInt(Buffer& buff, int val);
+	void WriteVarInt(Buffer& buff, int val, int* bytesWritten = nullptr);
 
 	std::string ReadString(Buffer& buff);
 	void WriteString(Buffer& buf, std::string str);

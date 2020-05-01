@@ -13,6 +13,8 @@ public:
 		type = NBTDataType::TAG_Compound;
 	}
 
+	virtual ~NBTCompound() override;
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 

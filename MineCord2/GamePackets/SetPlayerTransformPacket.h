@@ -10,5 +10,9 @@ public:
 	int teleportId;
 
 public:
+	SetPlayerTransformPacket() {
+		isCompressed = true;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };

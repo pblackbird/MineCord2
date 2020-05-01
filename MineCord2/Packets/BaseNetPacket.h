@@ -7,19 +7,24 @@
 #include "PacketUtils.h"
 
 #define PKT_END() \
-	PacketUtils::Write(buff, dest, packetId);
+	PacketUtils::Write(buff, dest, packetId, isCompressed);
 
 class BaseNetPacket {
 protected:
 	Buffer buff;
+	bool isCompressed = true;
 
 public:
-	int length;
+	int length, uncompressedLength;
 	int packetId;
 
 	int packetIdLen;
 
 public:
+	BaseNetPacket() {
+		isCompressed = false;
+	}
+
 	template<class T>
 	T Cast() {
 		T pkt;
@@ -29,9 +34,21 @@ public:
 		return pkt;
 	}
 
+	void SetCompressed(bool value) {
+		isCompressed = value;
+	}
+
 	virtual void Parse(std::vector<uint8_t>& src);
 	virtual void Build(Buffer& dest) {
 		throw new std::runtime_error("Build is not implemented");
+	}
+
+	void SetBuffer(Buffer buffer) {
+		buff = buffer;
+	}
+
+	Buffer GetBuffer() {
+		return buff;
 	}
 };
 

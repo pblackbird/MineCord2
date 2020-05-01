@@ -11,6 +11,8 @@ public:
 		type = NBTDataType::TAG_Float;
 	}
 
+	virtual ~NBTFloat() override {};
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

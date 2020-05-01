@@ -1,5 +1,11 @@
 #include "NBT_List.h"
 
+NBTList::~NBTList() {
+    for (auto element : array) {
+        delete element;
+    }
+}
+
 void NBTList::Write(Buffer& dest) {
   type = NBTDataType::TAG_List;
 

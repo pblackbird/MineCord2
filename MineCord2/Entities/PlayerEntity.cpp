@@ -43,6 +43,8 @@ void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
+	position = { 0, 50, 0 };
+
 	player->Join();
 	player->SetTransform(
 		position,

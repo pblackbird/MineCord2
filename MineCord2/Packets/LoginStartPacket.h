@@ -7,5 +7,9 @@ public:
 	std::string playerName;
 
 public:
+	LoginStartPacket() {
+		isCompressed = false;
+	}
+
 	void Parse(std::vector<uint8_t>& src) override;
 };

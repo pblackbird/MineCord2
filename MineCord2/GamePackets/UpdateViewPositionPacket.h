@@ -2,13 +2,12 @@
 
 #include "../Packets/BaseNetPacket.h"
 
-class ServerChatSayPacket : public BaseNetPacket {
+class UpdateViewPositionPacket : public BaseNetPacket {
 public:
-	std::string m_json;
-	ServerChatMessageType type;
+	uint32_t chunkX, chunkZ;
 
 public:
-	ServerChatSayPacket() {
+	UpdateViewPositionPacket() {
 		isCompressed = true;
 	}
 

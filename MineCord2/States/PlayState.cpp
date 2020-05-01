@@ -10,5 +10,9 @@ void PlayState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) {
 		return;
 	}
 
+	Buffer buf = packet.GetBuffer();
+	buf.setReadOffset(0);
+
+	packet = PacketUtils::ReadCompressed(buf);
 	player->OnMsg(packet);
 }

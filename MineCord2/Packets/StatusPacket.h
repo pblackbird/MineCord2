@@ -8,5 +8,9 @@ public:
 	std::string json;
 
 public:
+	StatusPacket() {
+		isCompressed = false;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };

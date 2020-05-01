@@ -6,6 +6,7 @@
 
 #include "Network/MinecraftNetworkClient.h"
 #include "Entities/PlayerEntity.h"
+#include "Map/Chunk.h"
 
 class Player;
 
@@ -27,6 +28,8 @@ private:
 public:
 	void Join();
 	void SetTransform(Point3D position, Angle rotation, int teleportId = 0);
+
+	void SetPlayerPositionChunk(ChunkPosition chunkPos);
 	
 	void Ping();
 

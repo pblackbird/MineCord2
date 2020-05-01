@@ -12,5 +12,9 @@ public:
 	int packetId = HANDSHAKE_PACKETID;
 
 public:
+	HandshakePacket() {
+		isCompressed = false;
+	}
+
 	void Parse(std::vector<uint8_t>& src) override;
 };

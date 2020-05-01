@@ -11,6 +11,8 @@ public:
 		type = NBTDataType::TAG_Int;
 	}
 
+	virtual ~NBTInt() override {};
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

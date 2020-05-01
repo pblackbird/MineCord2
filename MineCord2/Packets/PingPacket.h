@@ -8,6 +8,10 @@ public:
 	int packetId = PING_PONG_PACKETID;
 
 public:
+	PingPacket() {
+		isCompressed = false;
+	}
+
 	void Parse(std::vector<uint8_t>& src) override;
 	void Build(Buffer& dest) override;
 };

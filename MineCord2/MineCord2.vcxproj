@@ -84,6 +84,7 @@
     <ClCompile Include="GamePackets\KeepAlivePacket.cpp" />
     <ClCompile Include="GamePackets\ServerChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
+    <ClCompile Include="GamePackets\UpdateViewPositionPacket.cpp" />
     <ClCompile Include="Map\Chunk.cpp" />
     <ClCompile Include="Map\ChunkSection.cpp" />
     <ClCompile Include="Map\TestMapManager.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="NBT\NBTString.cpp" />
     <ClCompile Include="NBT\NBT_List.cpp" />
     <ClCompile Include="NBT\Tests\NBT_Test.cpp" />
+    <ClCompile Include="Packets\SetCompressionPacket.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerActions\ChatMsg.cpp" />
     <ClCompile Include="States\PlayState.cpp" />
@@ -138,6 +140,7 @@
     <ClInclude Include="GamePackets\KeepAlivePacket.h" />
     <ClInclude Include="GamePackets\ServerChatSayPacket.h" />
     <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
+    <ClInclude Include="GamePackets\UpdateViewPositionPacket.h" />
     <ClInclude Include="Map\Chunk.h" />
     <ClInclude Include="Map\ChunkSection.h" />
     <ClInclude Include="Map\TestMapManager.h" />
@@ -155,8 +158,8 @@
     <ClInclude Include="NBT\NBTString.h" />
     <ClInclude Include="NBT\NBT_List.h" />
     <ClInclude Include="NBT\Tests\NBT_Test.h" />
-    <ClInclude Include="PacketIdentities\1_12_2.h" />
     <ClInclude Include="PacketIdentities\1_14_4.h" />
+    <ClInclude Include="Packets\SetCompressionPacket.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerActions\ChatMsg.h" />
     <ClInclude Include="States\PlayState.h" />

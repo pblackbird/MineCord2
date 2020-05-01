@@ -1,4 +1,5 @@
 #include "LoginState.h"
+#include "../Packets/SetCompressionPacket.h"
 #include "../Packets/LoginStartPacket.h"
 #include "../Packets/LoginSuccessPacket.h"
 #include "../GamePackets/JoinGamePacket.h"
@@ -24,6 +25,11 @@ void LoginState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) 
 		client->Disconnect();
 		return;
 	}
+
+	SetCompressionPacket setCompression;
+	setCompression.maxUncompressedSize = 1024;
+
+	client->Invoke(setCompression);
 
 	LoginSuccessPacket resp;
 	resp.playerName = loginRequest.playerName;

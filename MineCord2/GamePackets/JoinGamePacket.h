@@ -13,5 +13,9 @@ public:
 	bool isDebug;
 
 public:
+	JoinGamePacket() {
+		isCompressed = true;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };

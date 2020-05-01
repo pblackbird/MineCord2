@@ -2,6 +2,8 @@
 #include "GamePackets/JoinGamePacket.h"
 #include "GamePackets/KeepAlivePacket.h"
 #include "GamePackets/SetPlayerTransformPacket.h"
+#include "GamePackets/UpdateViewPositionPacket.h"
+
 #include "World/PrimaryWorld.h"
 
 #include "PlayerActions/ChatMsg.h"
@@ -62,6 +64,14 @@ void Player::SetTransform(Point3D position, Angle rotation, int teleportId) {
 	transformMsg.z = position.z;
 
 	pNetClient->Invoke(transformMsg);
+}
+
+void Player::SetPlayerPositionChunk(ChunkPosition chunkPos) {
+	UpdateViewPositionPacket updateViewPos;
+	updateViewPos.chunkX = chunkPos.x;
+	updateViewPos.chunkZ = chunkPos.z;
+
+	pNetClient->Invoke(updateViewPos);
 }
 
 void Player::Ping() {

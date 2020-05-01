@@ -11,6 +11,8 @@ public:
 		type = NBTDataType::TAG_Short;
 	}
 
+	virtual ~NBTShort() override {};
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

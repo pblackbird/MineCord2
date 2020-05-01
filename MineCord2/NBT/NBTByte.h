@@ -11,6 +11,8 @@ public:
 		type = NBTDataType::TAG_Byte;
 	}
 
+	virtual ~NBTByte() override {};
+
 	virtual void Write(Buffer& dest) override;
 	virtual void Read(Buffer& src) override;
 };

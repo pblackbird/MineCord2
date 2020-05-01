@@ -1,6 +1,12 @@
 #include "NBTCompound.h"
 #include <iostream>
 
+NBTCompound::~NBTCompound() {
+	for (auto tag : tags) {
+		delete tag;
+	}
+}
+
 void NBTCompound::Write(Buffer& dest) {
 	NBT::Write(dest);
 

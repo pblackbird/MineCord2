@@ -7,6 +7,8 @@
 #include "../Logger.h"
 #include "../ThirdParty/BufferedIO.h"
 
+#define BITS_PER_BLOCK 13
+
 static Logger logger(L"Chunk section manager");
 
 typedef struct {
@@ -16,7 +18,6 @@ typedef struct {
 class ChunkSection {
 private:
 	Block blocks[4096];
-	uint8_t bitsPerBlock = 13;
 
 public:
 	void Serialize(Buffer& dest);
