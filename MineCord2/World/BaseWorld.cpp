@@ -79,6 +79,8 @@ bool BaseWorld::DestroyEntity(entity_id id) {
 	}
 
 	entities[id]->OnDestroy();
+
+	delete entities[id];
 	entities.erase(id);
 
 	return true;
@@ -97,6 +99,7 @@ bool BaseWorld::DestroyPlayer(int networkId) {
 		return false;
 	}
 
+	delete players[playerIndex];
 	players.erase(players.begin() + playerIndex);
 
 	return true;
