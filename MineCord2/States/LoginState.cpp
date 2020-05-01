@@ -5,6 +5,7 @@
 #include "../GamePackets/JoinGamePacket.h"
 #include "../Utl.h"
 #include "../World/PrimaryWorld.h"
+#include "../Network/NetConfig.h"
 
 void LoginState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) {
 	Logger logger(L"Auth");
@@ -27,7 +28,7 @@ void LoginState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) 
 	}
 
 	SetCompressionPacket setCompression;
-	setCompression.maxUncompressedSize = 1024;
+	setCompression.maxUncompressedSize = MAX_UNCOMPRESSED_SIZE;
 
 	client->Invoke(setCompression);
 
