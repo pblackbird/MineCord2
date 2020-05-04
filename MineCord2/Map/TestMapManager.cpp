@@ -12,12 +12,12 @@ TestMapManager* TestMapManager::GetInstance() {
 }
 
 void TestMapManager::SendRegionAtPosition(ChunkPosition pos, Player* player) {
-	Chunk testChunk;
+	Chunk testChunk = {};
 	testChunk.SetPosition(pos);
 
 	// Fill 16 chunk sections per chunk
 	for (int i = 0; i < 10; i++) {
-		ChunkSection section;
+		ChunkSection section = {};
 
 		// Fill 16 blocks per chunk section
 		for (int j = 0; j < 4096; j++) {

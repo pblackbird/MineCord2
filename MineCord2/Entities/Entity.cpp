@@ -1,5 +1,7 @@
 #include "Entity.h"
+#include "../GamePackets/DestroyEntitiesPacket.h"
 #include "../Utl.h"
+#include "../World/PrimaryWorld.h"
 
 entity_id Entity::entityIndexCounter = 0;
 
@@ -21,6 +23,13 @@ Entity::Entity() {
 	entityName = "Unnamed creature";
 }
 
+void Entity::OnDestroy() {
+	DestroyEntitiesPacket destroyMsg;
+	destroyMsg.entities.push_back(entityId);
+
+	PrimaryWorld::GetInstance()->BroadcastMessage(destroyMsg);
+}
+
 std::vector<uint8_t> Entity::GetMetadataBlob() {
 	EndMetadataArray();
 	return metadataBlob.getBuffer();
@@ -29,18 +38,6 @@ std::vector<uint8_t> Entity::GetMetadataBlob() {
 void Entity::BuildMetadata() {
 
 	metadataBlob.clear();
-
-	/*AddMetadataEntry<uint8_t>(
-		(uint8_t)BaseMetadataIndex::STATE_BITMASK,
-		MetadataType::BYTE,
-		stateMask
-	);*/
-
-	/*AddMetadataEntry<int>(
-		(uint8_t)BaseMetadataIndex::AIR,
-		MetadataType::VARINT,
-		air
-	);*/
 
 	AddStringMetadataEntry(
 		(uint8_t)BaseMetadataIndex::CUSTOMNAME,

@@ -99,7 +99,8 @@ public:
 
 	virtual void OnTick() = 0;
 	virtual void OnCreate() = 0;
-	virtual void OnDestroy() = 0;
+
+	virtual void OnDestroy();
 
 	std::vector<uint8_t> GetMetadataBlob();
 
