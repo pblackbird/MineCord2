@@ -22,7 +22,7 @@ void TestMapManager::SendRegionAtPosition(ChunkPosition pos, Player* player) {
 		// Fill 16 blocks per chunk section
 		for (int j = 0; j < 4096; j++) {
 			Block testBlock;
-			testBlock.palette = 0b00000000010000;
+			testBlock.palette = 1;
 
 			section.SetBlock(j, testBlock);
 		}

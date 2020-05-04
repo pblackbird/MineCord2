@@ -12,8 +12,8 @@ void UpdatePlayerTransform(Player* player, Point3D pos, Angle rotation) {
 void OnPlayerMove(Player* player, BaseNetPacket& msg) {
 	Logger logger("Player position debugger");
 
-	Point3D newPosition;
-	Angle newAngle;
+	Point3D newPosition = {};
+	Angle newAngle = {};
 
 	switch (msg.packetId) {
 		case SYNC_PLAYER_CLIENT: {
