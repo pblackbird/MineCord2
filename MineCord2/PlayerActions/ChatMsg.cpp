@@ -7,7 +7,7 @@
 #include "../Map/Chunk.h"
 
 void OnPlayerChatMessage(Player* player, BaseNetPacket& msg) {
-	Logger logger(L"Chat debugger");
+	Logger logger("Chat debugger");
 
 	const auto world = PrimaryWorld::GetInstance();
 
@@ -16,48 +16,8 @@ void OnPlayerChatMessage(Player* player, BaseNetPacket& msg) {
 
 	const auto chatMsg = msg.Cast<ClientChatSayPacket>();
 
-	logger.Info(
-		L"%ls said %ls", 
-		std::wstring(playerName.begin(), playerName.end()).c_str(),
-		std::wstring(chatMsg.text.begin(), chatMsg.text.end()).c_str()
-	);
-
-	if (chatMsg.text == "/chunk") {
-		for (int x = 0; x < 10; x++) {
-			for (int z = 0; z < 10; z++) {
-				Chunk testChunk;
-				testChunk.SetPosition({ x, z });
-
-				// Fill 16 chunk sections per chunk
-				for (int i = 0; i < 16; i++) {
-					ChunkSection section;
-
-					// Fill 16 blocks per chunk section
-					for (int j = 0; j < 4096; j++) {
-						Block testBlock;
-						testBlock.palette = 0b0000000010000;
-
-						section.SetBlock(j, testBlock);
-					}
-
-					testChunk.SetSection(i, section);
-				}
-
-				ChunkDataPacket chunkMsg;
-				chunkMsg.chunk = testChunk;
-
-				player->GetNetClient()->Invoke(chunkMsg);
-			}
-			
-		}
-
-		player->SetPlayerPositionChunk({0, 0});
-
-		return;
-	}
-
 	ServerChatSayPacket serverMsg;
-	serverMsg.m_json = "{\"text\": \"Baba bebe\"}";
+	serverMsg.m_json = "{\"text\": \"" + playerName + ": " + chatMsg.text + "\"}";
 
 	world->BroadcastMessage(serverMsg);
 }

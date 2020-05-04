@@ -19,7 +19,7 @@ class BaseNetPacket;
 class MinecraftNetworkClient : public TCPClient {
 protected:
 	ClientState clientState = ClientState::HANDSHAKE;
-	std::wstring username;
+	std::string username;
 
 public:
 	MinecraftNetworkClient(int socket, uint32_t ipv4);
@@ -33,11 +33,11 @@ public:
 		SendData(data.getBuffer());
 	}
 
-	std::wstring GetUsername() {
+	std::string GetUsername() {
 		return username;
 	}
 
-	void SetUsername(const std::wstring&& newUsername) {
+	void SetUsername(const std::string& newUsername) {
 		username = newUsername;
 	}
 

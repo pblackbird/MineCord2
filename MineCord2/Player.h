@@ -26,7 +26,7 @@ private:
 	void DispatchServiceMessage(BaseNetPacket& msg);
 
 public:
-	void Join();
+	void Join(GameMode mode);
 	void SetTransform(Point3D position, Angle rotation, int teleportId = 0);
 
 	void SetPlayerPositionChunk(ChunkPosition chunkPos);

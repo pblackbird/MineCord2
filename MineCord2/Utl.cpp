@@ -93,7 +93,6 @@ bool Utl::Compress(std::vector<uint8_t>& in, std::vector<uint8_t>& out, Compress
 		return false;
 	}
 
-	int zlibResult = Z_OK;
 	int len = 0;
 
 	do {
@@ -116,13 +115,14 @@ bool Utl::Compress(std::vector<uint8_t>& in, std::vector<uint8_t>& out, Compress
 }
 
 std::string Utl::GenerateUUID() {
-	Logger logger(L"UUID generator");
+	Logger logger("UUID generator");
 
-	uint8_t uuid[36];
+	uint8_t uuid[37];
+	bzero(uuid, 37);
 	bool success = ReadFileOnceSync("/proc/sys/kernel/random/uuid", uuid, 36);
 
 	if (!success) {
-		logger.Error(L"Unable to generate UUID. ReadFileOnceSync() failed: %i", errno);
+		logger.Error("Unable to generate UUID. ReadFileOnceSync() failed: %i", errno);
 		return "";
 	}
 

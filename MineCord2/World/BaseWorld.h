@@ -35,7 +35,7 @@ private:
 
 public:
 	BaseWorld() {
-		logger.SetTag(L"World");
+		logger.SetTag("World");
 	}
 
 	virtual void Tick();
@@ -56,7 +56,7 @@ public:
 	void AddEntity(Entity* pEntity);
 
 	bool DestroyPlayer(int networkId);
-	PlayerEntity* AddPlayer(MinecraftNetworkClient* pClient, const std::string&& name, const std::string&& uuid);
+	PlayerEntity* AddPlayer(MinecraftNetworkClient* pClient, const std::string name, const std::string uuid);
 
 	Player* GetPlayerBySlaveId(entity_id slaveId);
 	Player* GetPlayerByNetworkClientId(int clientId);

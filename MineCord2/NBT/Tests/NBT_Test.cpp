@@ -4,12 +4,12 @@
 #include "../../Utl.h"
 
 void TestNBT(const std::string& path) {
-	Logger logger(L"NBT tester");
+	Logger logger("NBT tester");
 
 	const auto fileSize = Utl::GetFileSize(path);
 
 	if (fileSize <= 0) {
-		logger.Error(L"ERROR! CANT OPEN FILE %ls!", std::wstring(path.begin(), path.end()).c_str());
+		logger.Error("ERROR! CANT OPEN FILE %ls!", std::wstring(path.begin(), path.end()).c_str());
 		return;
 	}
 
@@ -18,7 +18,7 @@ void TestNBT(const std::string& path) {
 	Utl::ReadFileOnceSync(path, fileInputData.data(), fileSize);
 
 	if (!Utl::Decompress(fileInputData, fileData)) {
-		logger.Error(L"Utl::Decompress() failed!");
+		logger.Error("Utl::Decompress() failed!");
 		return;
 	}
 

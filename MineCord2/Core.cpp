@@ -7,12 +7,12 @@
 Core* Core::pSingleton;
 
 void Core::ShowWelcomeMessage() {
-	logger.Info(L"Welcome to MineCord v%ls", VERSION);
+	logger.Info("Welcome to MineCord v%ls", VERSION);
 }
 
 void Core::Boot() {
-	logger.SetTag(L"Core");
-	logger.Info(L"Starting Core ...");
+	logger.SetTag("Core");
+	logger.Info("Starting Core ...");
 
 	StatesBindings::GetInstance()->Fill();
 

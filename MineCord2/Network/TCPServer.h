@@ -51,7 +51,7 @@ public:
 		int result = epoll_ctl(epollFD, EPOLL_CTL_MOD, fd, &event);
 
 		if (result < 0) {
-			logger.Error(L"epoll_ctl() with EPOLL_CTL_MOD failed: %i", fd);
+			logger.Error("epoll_ctl() with EPOLL_CTL_MOD failed: %i", fd);
 		}
 	}
 
@@ -68,7 +68,7 @@ private:
 		int result = epoll_ctl(epollFD, EPOLL_CTL_ADD, fd, &event);
 
 		if (result < 0) {
-			logger.Error(L"epoll_ctl() with EPOLL_CTL_ADD failed: %i", fd);
+			logger.Error("epoll_ctl() with EPOLL_CTL_ADD failed: %i", fd);
 		}
 	}
 
@@ -76,7 +76,7 @@ private:
 		int result = epoll_ctl(epollFD, EPOLL_CTL_DEL, fd, NULL);
 
 		if (result < 0) {
-			logger.Error(L"epoll_ctl() with EPOLL_CTL_DEL failed: %i", fd);
+			logger.Error("epoll_ctl() with EPOLL_CTL_DEL failed: %i", fd);
 		}
 	}
 

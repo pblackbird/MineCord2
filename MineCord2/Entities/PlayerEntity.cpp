@@ -3,7 +3,7 @@
 #include "../World/PrimaryWorld.h"
 #include "../Map/TestMapManager.h"
 
-PlayerEntity::PlayerEntity(const std::string&& uuid) : LivingEntity() {
+PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
 	this->uuid = uuid;
 }
 
@@ -43,13 +43,17 @@ void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 0, 50, 0 };
+	position = { 0, 200, 0 };
 
-	player->Join();
+	player->Join(GameMode::SURVIVAL);
 	player->SetTransform(
 		position,
 		rotation
 	);
+
+	TestMapManager::GetInstance()->SendRegionAtPosition({ position.x, position.z }, player);
+
+	player->SetPlayerPositionChunk({ 0, 0 });
 }
 
 void PlayerEntity::OnDestroy() {

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <zlib.h>
+#include <strings.h>
 
 #include "Logger.h"
 

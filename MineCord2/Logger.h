@@ -9,23 +9,23 @@
 
 class Logger {
 private:
-	std::wstring _tag;
+	std::string _tag;
 	static std::mutex _printMutex;
 
 private:
-	void PrintText(const std::wstring& text, va_list args, __FILE* stream = stdout);
+	void PrintText(const std::string& text, va_list args, __FILE* stream = stdout);
 
 public:
-	Logger(const std::wstring&& tag);
+	Logger(const std::string&& tag);
 	Logger();
 
 	void operator=(const Logger& logger);
 
-	void SetTag(const std::wstring& tag);
-	std::wstring& GetTag();
+	void SetTag(const std::string& tag);
+	std::string& GetTag();
 
-	void Info(const std::wstring&& text, ...);
-	void Warning(const std::wstring&& text, ...);
-	void Error(const std::wstring&& text, ...);
+	void Info(const std::string&& text, ...);
+	void Warning(const std::string&& text, ...);
+	void Error(const std::string&& text, ...);
 };
 

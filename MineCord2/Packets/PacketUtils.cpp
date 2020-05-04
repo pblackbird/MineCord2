@@ -30,7 +30,7 @@ void PacketUtils::Write(Buffer& in, Buffer& out, int pktId, bool isCompressed, s
 	int rawBodySize = 0;
 
 	if (in.getBuffer().size() >= MAX_UNCOMPRESSED_SIZE) {
-		rawBodySize = in.getBuffer().size() + 1; // +1 for packet id length
+		rawBodySize = (int)in.getBuffer().size() + 1; // +1 for packet id length
 		assert(Utl::Compress(rawBody, outputBody, CompressionMethod::INFLATE));
 	} else {
 		outputBody = rawBody;
@@ -45,7 +45,7 @@ void PacketUtils::Write(Buffer& in, Buffer& out, int pktId, bool isCompressed, s
 		sizeOfDataLength = 1;
 	}
 
-	MinecraftTypes::WriteVarInt(out, sizeOfDataLength + outputBody.size());
+	MinecraftTypes::WriteVarInt(out, sizeOfDataLength + (int)outputBody.size());
 
 	for (const auto byte : dataLengthBuffer.getBuffer()) {
 		out.writeUInt8(byte);

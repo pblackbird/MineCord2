@@ -6,10 +6,13 @@
 
 #include "World/PrimaryWorld.h"
 
+#include "PlayerActions/PlayerMove.h"
 #include "PlayerActions/ChatMsg.h"
 
 static std::map<int, OnPlayerAction_t> playerActionHandlers = {
-	{ CHAT_MSG_FROM_CLIENT_PACKETID, OnPlayerChatMessage }
+	{ CHAT_MSG_FROM_CLIENT_PACKETID, OnPlayerChatMessage },
+	{ SYNC_PLAYER_CLIENT, OnPlayerMove },
+	{ SYNC_PLAYER_CLIENT_ROTATION_POSITION, OnPlayerMove }
 };
 
 Player::~Player() {
@@ -21,14 +24,9 @@ Player::~Player() {
 void Player::DispatchServiceMessage(BaseNetPacket& msg) {
 	switch (msg.packetId) {
 		case KEEP_ALIVE_CLIENT_PACKETID: {
-			playerLogger.Info(L"Keep alive pktid = %i", msg.packetId);
-
 			if (!isWaitingForPong) {
-				playerLogger.Warning(L"Got pong response, but ping was not requested!");
 				return;
 			}
-
-			playerLogger.Info(L"Got normal ping response");
 
 			isWaitingForPong = false;
 			lastKeepAlive = std::time(NULL);
@@ -38,10 +36,10 @@ void Player::DispatchServiceMessage(BaseNetPacket& msg) {
 	}
 }
 
-void Player::Join() {
+void Player::Join(GameMode mode) {
 	JoinGamePacket join;
 	join.entityId = pSlave->GetID();
-	join.gamemode = GameMode::CREATIVE;
+	join.gamemode = mode;
 	join.dimension = Dimension::OVERWORLD;
 	join.maxPlayers = 100;
 	join.worldType = "default";

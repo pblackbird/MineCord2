@@ -20,7 +20,7 @@ public:
 	uint8_t mainHand = 1;
 
 public:
-	PlayerEntity(const std::string&& uuid);
+	PlayerEntity(const std::string uuid);
 
 	virtual void BuildMetadata() override;
 

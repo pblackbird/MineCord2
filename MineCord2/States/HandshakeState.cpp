@@ -2,7 +2,7 @@
 #include "../Packets/HandshakePacket.h"
 
 void HandshakeState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) {
-	Logger logger(L"Handshake");
+	Logger logger("Handshake");
 
 	if (packet.packetId != 0x00) {
 		return;
@@ -10,7 +10,7 @@ void HandshakeState::Process(MinecraftNetworkClient* client, BaseNetPacket& pack
 
 	const auto pkt = packet.Cast<HandshakePacket>();
 
-	logger.Info(L"Next state is %i | PROTOCOL[%i]", pkt.nextState, pkt.protocolVersion);
+	logger.Info("Next state is %i | PROTOCOL[%i]", pkt.nextState, pkt.protocolVersion);
 	
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch"

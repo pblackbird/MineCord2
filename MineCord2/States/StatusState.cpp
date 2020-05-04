@@ -12,18 +12,18 @@ void SendTestMOTD(MinecraftNetworkClient* client) {
 }
 
 void StatusState::Process(MinecraftNetworkClient* client, BaseNetPacket& packet) {
-	Logger logger(L"Status state");
+	Logger logger("Status state");
 
 	switch (packet.packetId) {
 		case 0x00: {
-			logger.Info(L"Sending motd ...");
+			logger.Info("Sending motd ...");
 
 			SendTestMOTD(client);
 			break;
 		}
 
 		case 0x01: {
-			logger.Info(L"Sending pong ...");
+			logger.Info("Sending pong ...");
 
 			const auto pingRequest = packet.Cast<PingPacket>();
 

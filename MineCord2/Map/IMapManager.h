@@ -3,6 +3,7 @@
 #include "../Transformable.h"
 #include "../ThirdParty/BufferedIO.h"
 #include "Chunk.h"
+#include "../Player.h"
 
 /*
 	Map manager that works with memory mapped map-data file will be implemented in future.
@@ -10,5 +11,5 @@
 class IMapManager {
 public:
 	// Serialize chunk at position
-	virtual void SerializeChunkAtPosition(Point3D pos, Buffer& dest) = 0;
+	virtual void SendRegionAtPosition(ChunkPosition pos, Player* player) = 0;
 };

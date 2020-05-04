@@ -25,7 +25,7 @@ private:
 
 public:
 	StatesBindings() {
-		logger.SetTag(L"States bindings");
+		logger.SetTag("States bindings");
 	}
 
 	void Fill();

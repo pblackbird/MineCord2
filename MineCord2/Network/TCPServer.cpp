@@ -28,7 +28,7 @@ void TCPServer::DisconnectClient(int fd) {
 	const auto client = clients[fd];
 	assert(client);
 	
-	logger.Info(L"Disconnecting %ls ...", NetworkUtils::FormatIPv4(client->GetIPv4()).c_str());
+	logger.Info("Disconnecting %s ...", NetworkUtils::FormatIPv4(client->GetIPv4()).c_str());
 
 	close(fd);
 	delete client;
@@ -37,13 +37,13 @@ void TCPServer::DisconnectClient(int fd) {
 void TCPServer::SetBuffersCapacity(int socket, size_t sendBufSize, size_t recvBufSize) {
 	int result = setsockopt(socket, SOL_SOCKET, SO_SNDBUF, &sendBufSize, sizeof(sendBufSize));
 	if (result < 0) {
-		logger.Error(L"setsockopt for SO_SNDBUF failed: %i", errno);
+		logger.Error("setsockopt for SO_SNDBUF failed: %i", errno);
 		exit(1);
 	}
 
 	result = setsockopt(socket, SOL_SOCKET, SO_RCVBUF, &recvBufSize, sizeof(recvBufSize));
 	if (result < 0) {
-		logger.Error(L"setsockopt for SO_RCVBUF failed: %i", errno);
+		logger.Error("setsockopt for SO_RCVBUF failed: %i", errno);
 		exit(1);
 	}
 }
@@ -52,7 +52,7 @@ void TCPServer::InitializeEpoll() {
 	epollFD = epoll_create1(0);
 
 	if (epollFD < 0) {
-		logger.Error(L"epoll_create() failed: %i", errno);
+		logger.Error("epoll_create() failed: %i", errno);
 		exit(1);
 	}
 }
@@ -68,7 +68,7 @@ void TCPServer::ProcessServerEpoll() {
 	}
 
 	if (clientSocket < 0) {
-		logger.Error(L"accept() failed: ", errno);
+		logger.Error("accept() failed: ", errno);
 		return;
 	}
 
@@ -77,8 +77,8 @@ void TCPServer::ProcessServerEpoll() {
 
 	AddEpollFD(clientSocket, EPOLLIN | EPOLLOUT | EPOLLHUP | EPOLLERR);
 
-	std::wstring ip = NetworkUtils::FormatIPv4(clientAddress.sin_addr.s_addr);
-	logger.Info(L"New connection from %ls:%i", ip.c_str(), clientAddress.sin_port);
+	std::string ip = NetworkUtils::FormatIPv4(clientAddress.sin_addr.s_addr);
+	logger.Info("New connection from %s:%i", ip.c_str(), clientAddress.sin_port);
 
 	clients[clientSocket] = new MinecraftNetworkClient(clientSocket, clientAddress.sin_addr.s_addr);
 }
@@ -93,7 +93,7 @@ void TCPServer::ProcessClientEpoll(epoll_event* pEvent) {
 				return;
 			}
 
-			logger.Error(L"recv() failed: %i", errno);
+			logger.Error("recv() failed: %i", errno);
 
 			return;
 		}
@@ -116,14 +116,14 @@ void TCPServer::ProcessClientEpoll(epoll_event* pEvent) {
 }
 
 TCPServer::TCPServer() {
-	logger.SetTag(L"TCP Server");
+	logger.SetTag("TCP Server");
 }
 
 void TCPServer::Start(uint16_t port) {
 	serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 	if (serverSocket < 0) {
-		logger.Error(L"socket() failed: %i", errno);
+		logger.Error("socket() failed: %i", errno);
 		exit(1);
 	}
 
@@ -133,7 +133,7 @@ void TCPServer::Start(uint16_t port) {
 	int result = setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &enableValue, sizeof(int));
 
 	if (result < 0) {
-		logger.Error(L"setsockopt() failed: %i", result);
+		logger.Error("setsockopt() failed: %i", result);
 		exit(1);
 	}
 
@@ -146,13 +146,13 @@ void TCPServer::Start(uint16_t port) {
 
 	result = bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 	if (result < 0) {
-		logger.Error(L"bind() failed: %i", result);
+		logger.Error("bind() failed: %i", result);
 		exit(1);
 	}
 
 	result = listen(serverSocket, MAX_CLIENTS);
 	if (result < 0) {
-		logger.Error(L"listen() failed: %i", result);
+		logger.Error("listen() failed: %i", result);
 		exit(1);
 	}
 

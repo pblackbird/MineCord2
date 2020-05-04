@@ -27,14 +27,19 @@ void Chunk::Serialize(Buffer& dest) {
 	
 	MinecraftTypes::WriteVarInt(
 		dest, 
-		ChunkSection::GetSectionSizeInBytes(BITS_PER_BLOCK)
-		* (sizeof(sections) / sizeof(ChunkSection))
+		ChunkSection::GetSectionSizeInBytes(BITS_PER_BLOCK) * (int)(sizeof(sections) / sizeof(ChunkSection))
+		+ 256 * sizeof(uint32_t)
 	);
 
-	for (int i = 0; i < sizeof(sections) / sizeof(ChunkSection); i++) {
+	for (int i = 0; i < (int)(sizeof(sections) / sizeof(ChunkSection)); i++) {
 		sections[i].Serialize(dest);
 	}
 
 	// no block entities on chunk synchronization
 	MinecraftTypes::WriteVarInt(dest, 0);
+
+	// todo: implement biome data
+	for (int i = 0; i < 256; i++) {
+		dest.writeInt32_BE(0);
+	}
 }

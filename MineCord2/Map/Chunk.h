@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cassert>
+#include <strings.h>
 
 #include "ChunkSection.h"
 #include "../ThirdParty/BufferedIO.h"

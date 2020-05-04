@@ -48,7 +48,7 @@ void BaseWorld::TickLoop() {
 			PingPlayers();
 
 			if (currentTPS < tickRate) {
-				logger.Warning(L"Current TPS (%llu) is less than %llu", currentTPS, tickRate);
+				logger.Warning("Current TPS (%llu) is less than %llu", currentTPS, tickRate);
 			}
 
 			currentTPS = 0;
@@ -105,9 +105,9 @@ bool BaseWorld::DestroyPlayer(int networkId) {
 	return true;
 }
 
-PlayerEntity* BaseWorld::AddPlayer(MinecraftNetworkClient* pClient, const std::string&& name, const std::string&& uuid) {
+PlayerEntity* BaseWorld::AddPlayer(MinecraftNetworkClient* pClient, const std::string name, const std::string uuid) {
 	auto player = new Player(pClient);
-	auto playerEntity = new PlayerEntity(std::move(uuid));
+	auto playerEntity = new PlayerEntity(uuid);
 
 	playerEntity->SetName(name);
 	player->SetSlaveEntity(playerEntity);

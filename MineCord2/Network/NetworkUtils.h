@@ -1,15 +1,18 @@
 #pragma once
 
-#include <sstream>
+#include <string>
 #include <iostream>
 
 namespace NetworkUtils {
-	inline const std::wstring FormatIPv4(uint32_t ipv4) {
-		std::wstringstream str;
+	inline const std::string FormatIPv4(uint32_t ipv4) {
+		std::string str;
 		uint8_t* pData = (uint8_t*)&ipv4;
 
-		str << pData[0] << L"." << pData[1] << L"." << pData[2] << L"." << pData[3];
+		str = std::to_string(pData[0]) 
+			+ "." + std::to_string(pData[1]) 
+			+ "." + std::to_string(pData[2]) 
+			+ "." + std::to_string(pData[3]);
 
-		return str.str();
+		return str;
 	}
 }
