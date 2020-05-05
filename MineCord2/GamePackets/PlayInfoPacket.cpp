@@ -4,9 +4,9 @@ void PlayerInfoPacket::Build(Buffer& dest) {
     packetId = PLAYER_INFO_PACKETID;
 
     MinecraftTypes::WriteVarInt(buff, (int)action);
-    MinecraftTypes::WriteVarInt(buff, players.size());
+    MinecraftTypes::WriteVarInt(buff, (int)players.size());
 
-    for (int i = 0; i < players.size(); i++) {
+    for (int i = 0; i < (int)players.size(); i++) {
         // todo: uuid
         for (int j = 0; j < 16; j++) {
             buff.writeUInt8(0x11);
@@ -15,9 +15,9 @@ void PlayerInfoPacket::Build(Buffer& dest) {
         PlayerListEntry player = players[i];
 
         MinecraftTypes::WriteString(buff, player.name);
-        MinecraftTypes::WriteVarInt(buff, player.properties.size());
+        MinecraftTypes::WriteVarInt(buff, (int)player.properties.size());
 
-        for (int j = 0; j < player.properties.size(); j++) {
+        for (int j = 0; j < (int)player.properties.size(); j++) {
             PlayerPropertyListEntry prop = player.properties[j];
 
             MinecraftTypes::WriteString(buff, prop.propertyName);

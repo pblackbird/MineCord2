@@ -51,6 +51,16 @@ void pushPlayerInList(std::vector<PlayerListEntry>& list, Player* existPlayer) {
 	playerListEntry.ping = /* HARD CODE */ 0;
 	playerListEntry.gamemode = /* HARD CODE */ GameMode::SURVIVAL;
 
+	PlayerPropertyListEntry textureProp;
+	textureProp.propertyName = "textures";
+	textureProp.value = "";
+	textureProp.isSigned = false;
+	textureProp.signature = "";
+
+	playerListEntry.properties = {
+		textureProp
+	};
+
 	playerListEntry.name = playerSlave->GetName();
 	if (playerListEntry.hasDisplayName) {
 		playerListEntry.displayName = playerSlave->GetName();
@@ -84,7 +94,7 @@ void PlayerEntity::OnCreate() {
 		pushPlayerInList(playersList, existPlayer);
 	};
 	
-	PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
+	//PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
 
 	pushPlayerInList(playersList, player);
 
@@ -95,10 +105,10 @@ void PlayerEntity::OnCreate() {
 
 	player->GetNetClient()->Invoke(infoPacket);
 
-	infoPacket.players = {};
-	pushPlayerInList(infoPacket.players, player);
+	//infoPacket.players = {};
+	//pushPlayerInList(infoPacket.players, player);
 
-	PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
+	//PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
 }
 
 void PlayerEntity::OnDestroy() {
