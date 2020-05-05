@@ -40,6 +40,8 @@ public:
 		return ipv4;
 	}
 
+	void CheckFD();
+
 	void SendData(const std::vector<uint8_t>& buffer);
 	void SendChunk();
 

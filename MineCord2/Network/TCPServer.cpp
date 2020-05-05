@@ -75,7 +75,7 @@ void TCPServer::ProcessServerEpoll() {
 	DisableSocketBlocking(clientSocket);
 	SetBuffersCapacity(clientSocket, SEND_BUFFER_SIZE, RECV_BUFFER_SIZE);
 
-	AddEpollFD(clientSocket, EPOLLIN | EPOLLOUT | EPOLLHUP | EPOLLERR);
+	AddEpollFD(clientSocket, EPOLLIN | EPOLLHUP | EPOLLERR);
 
 	std::string ip = NetworkUtils::FormatIPv4(clientAddress.sin_addr.s_addr);
 	logger.Info("New connection from %s:%i", ip.c_str(), clientAddress.sin_port);
