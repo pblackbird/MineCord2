@@ -41,7 +41,7 @@ void PlayerEntity::OnTick() {
 	
 }
 
-void pushPlayerInList(std::vector<PlayerListEntry>& list, Player* existPlayer) {
+void PushPlayer(std::vector<PlayerListEntry>& list, Player* existPlayer) {
 	const auto playerSlave = existPlayer->GetSlaveEntity();
 
 	PlayerListEntry playerListEntry;
@@ -91,12 +91,10 @@ void PlayerEntity::OnCreate() {
 
 	std::vector<PlayerListEntry> playersList;
 	std::function<void(Player* player)> pushPlayer = [&playersList](Player* existPlayer) {
-		pushPlayerInList(playersList, existPlayer);
+		PushPlayer(playersList, existPlayer);
 	};
 	
-	//PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
-
-	pushPlayerInList(playersList, player);
+	PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
 
 	PlayerInfoPacket infoPacket;
 	infoPacket.action = PlayerInfoAction::ADD_PLAYER;
@@ -105,10 +103,10 @@ void PlayerEntity::OnCreate() {
 
 	player->GetNetClient()->Invoke(infoPacket);
 
-	//infoPacket.players = {};
-	//pushPlayerInList(infoPacket.players, player);
+	infoPacket.players = {};
+	PushPlayer(infoPacket.players, player);
 
-	//PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
+	PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
 }
 
 void PlayerEntity::OnDestroy() {
