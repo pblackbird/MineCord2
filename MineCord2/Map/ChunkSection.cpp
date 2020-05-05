@@ -15,14 +15,16 @@ void ChunkSection::Serialize(Buffer& dest) {
 	for (int i = 0; i < (int)(sizeof(blocks) / sizeof(Block)); i++) {
 		Block block = blocks[i];
 
-		int beginOverlap = (i * BITS_PER_BLOCK) / 64;
-		int off = (i * BITS_PER_BLOCK) % 64;
-		int endOverlap = ((i + 1) * BITS_PER_BLOCK - 1) / 64;
+		int64_t beginOverlap = (i * BITS_PER_BLOCK) / 64;
+		int64_t off = (i * BITS_PER_BLOCK) % 64;
+		int64_t endOverlap = ((i + 1) * BITS_PER_BLOCK - 1) / 64;
 
-		longs[beginOverlap] |= (block.palette << off);
+		int64_t blockIdentity = block.palette;
+
+		longs[beginOverlap] |= (blockIdentity << off);
 
 		if (beginOverlap != endOverlap) {
-			longs[endOverlap] = (block.palette >> (64 - off));
+			longs[endOverlap] = (blockIdentity >> (64 - off));
 		}
 	}
 

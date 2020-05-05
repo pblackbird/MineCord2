@@ -51,10 +51,10 @@ void PlayerEntity::OnCreate() {
 		rotation
 	);
 	
-	for (int chunkX = 0; chunkX < 5; chunkX++) {
-		for (int chunkZ = 0; chunkZ < 5; chunkZ++) {
-			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, chunkZ }, player);
-		}
+	for (int chunkX = 0; chunkX < 1; chunkX++) {
+		//for (int chunkZ = 0; chunkZ < 1; chunkZ++) {
+			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, 0 }, player);
+		//}
 	}
 
 	player->SetPlayerPositionChunk({ 0, 0 });
