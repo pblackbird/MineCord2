@@ -2,6 +2,8 @@
 #include "../GamePackets/ChunkDataPacket.h"
 #include "../World/PrimaryWorld.h"
 #include "../Map/TestMapManager.h"
+#include "../GamePackets/PlayInfoPacket.h"
+#include <functional>
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
 	this->uuid = uuid;
@@ -39,6 +41,24 @@ void PlayerEntity::OnTick() {
 	
 }
 
+void pushPlayerInList(std::vector<PlayerListEntry>& list, Player* existPlayer) {
+	const auto playerSlave = existPlayer->GetSlaveEntity();
+
+	PlayerListEntry playerListEntry;
+
+	playerListEntry.uuid = playerSlave->GetUUID();
+	playerListEntry.hasDisplayName = /* HARD CODE */ true;
+	playerListEntry.ping = /* HARD CODE */ 0;
+	playerListEntry.gamemode = /* HARD CODE */ GameMode::SURVIVAL;
+
+	playerListEntry.name = playerSlave->GetName();
+	if (playerListEntry.hasDisplayName) {
+		playerListEntry.displayName = playerSlave->GetName();
+	}
+
+	list.push_back(playerListEntry);
+}
+
 void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
@@ -58,6 +78,27 @@ void PlayerEntity::OnCreate() {
 	}
 
 	player->SetPlayerPositionChunk({ 0, 0 });
+
+	std::vector<PlayerListEntry> playersList;
+	std::function<void(Player* player)> pushPlayer = [&playersList](Player* existPlayer) {
+		pushPlayerInList(playersList, existPlayer);
+	};
+	
+	PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
+
+	pushPlayerInList(playersList, player);
+
+	PlayerInfoPacket infoPacket;
+	infoPacket.action = PlayerInfoAction::ADD_PLAYER;
+	infoPacket.uuid = uuid;
+	infoPacket.players = playersList;
+
+	player->GetNetClient()->Invoke(infoPacket);
+
+	infoPacket.players = {};
+	pushPlayerInList(infoPacket.players, player);
+
+	PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
 }
 
 void PlayerEntity::OnDestroy() {

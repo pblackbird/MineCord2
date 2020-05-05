@@ -155,6 +155,12 @@ int BaseWorld::GetPlayerIndexByNetworkClientId(int clientId) {
 	return -1;
 }
 
+void BaseWorld::EnumeratePlayers(std::function<void(Player* player)> callback) {
+	for (Player* player : this->players) {
+		callback(player);
+	}
+}
+
 void BaseWorld::Run() {
 	worldTickThread = std::thread(_threadEntry, this);
 }

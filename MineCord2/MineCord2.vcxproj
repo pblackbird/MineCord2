@@ -83,6 +83,8 @@
     <ClCompile Include="GamePackets\DestroyEntitiesPacket.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
     <ClCompile Include="GamePackets\KeepAlivePacket.cpp" />
+    <ClCompile Include="GamePackets\PlayerInfoPacket.cpp" />
+    <ClCompile Include="GamePackets\PlayInfoPacket.cpp" />
     <ClCompile Include="GamePackets\ServerChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\SetEntityPositionRotationPacket.cpp" />
     <ClCompile Include="GamePackets\SetEntityRotationPacket.cpp" />
@@ -145,6 +147,7 @@
     <ClInclude Include="GamePackets\DestroyEntitiesPacket.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
     <ClInclude Include="GamePackets\KeepAlivePacket.h" />
+    <ClInclude Include="GamePackets\PlayInfoPacket.h" />
     <ClInclude Include="GamePackets\ServerChatSayPacket.h" />
     <ClInclude Include="GamePackets\SetEntityPositionRotationPacket.h" />
     <ClInclude Include="GamePackets\SetEntityRotationPacket.h" />
