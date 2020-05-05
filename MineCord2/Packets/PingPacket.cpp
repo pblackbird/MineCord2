@@ -7,6 +7,8 @@ void PingPacket::Parse(std::vector<uint8_t>& src) {
 }
 
 void PingPacket::Build(Buffer& dest) {
+	PKT_BEGIN(PING_PONG_PACKETID);
+
 	buff.writeInt64_BE(payload);
 
 	PKT_END();

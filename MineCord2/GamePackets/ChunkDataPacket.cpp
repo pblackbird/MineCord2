@@ -2,7 +2,7 @@
 #include "../Utl.h"
 
 void ChunkDataPacket::Build(Buffer& dest) {
-	packetId = CHUNK_DATA_PACKETID;
+	PKT_BEGIN(CHUNK_DATA_PACKETID);
 
 	chunk.Serialize(buff);
 

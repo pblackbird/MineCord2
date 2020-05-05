@@ -9,6 +9,10 @@
 #define PKT_END() \
 	PacketUtils::Write(buff, dest, packetId, isCompressed);
 
+#define PKT_BEGIN(id) \
+	buff.clear(); \
+	packetId = id;
+
 class BaseNetPacket {
 protected:
 	Buffer buff;
