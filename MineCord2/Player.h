@@ -4,6 +4,7 @@
 #include <map>
 #include <ctime>
 
+#include "GamePackets/PlayerInfoPacket.h"
 #include "Network/MinecraftNetworkClient.h"
 #include "Entities/PlayerEntity.h"
 #include "Map/Chunk.h"
@@ -43,6 +44,8 @@ public:
 	~Player();
 
 	void OnMsg(BaseNetPacket& msg);
+
+	void ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry> players);
 
 	void SetSlaveEntity(PlayerEntity* pEnt) {
 		pSlave = pEnt;

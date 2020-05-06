@@ -46,7 +46,7 @@ void PushPlayer(std::vector<PlayerListEntry>& list, Player* existPlayer) {
 	const auto playerSlave = existPlayer->GetSlaveEntity();
 
 	PlayerListEntry playerListEntry;
-
+	
 	memcpy(playerListEntry.uuid, playerSlave->GetUUID(), sizeof(uuid_t));
 	playerListEntry.hasDisplayName = /* HARD CODE */ true;
 	playerListEntry.ping = /* HARD CODE */ 0;
@@ -97,19 +97,40 @@ void PlayerEntity::OnCreate() {
 	
 	PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
 
-	PlayerInfoPacket infoPacket;
-	infoPacket.action = PlayerInfoAction::ADD_PLAYER;
-	memcpy(infoPacket.uuid, uuid, sizeof(uuid_t));
-	infoPacket.players = playersList;
+	PrimaryWorld::GetInstance()->EnumeratePlayers([player](Player* currentPlayer) {
+		if (player == currentPlayer) {
+			return;
+		}
 
-	player->GetNetClient()->Invoke(infoPacket);
+		std::vector<PlayerListEntry> tmp;
+		PushPlayer(tmp, player);
 
-	infoPacket.players = {};
-	PushPlayer(infoPacket.players, player);
+		currentPlayer->ControlTabMenu(
+			PlayerInfoAction::ADD_PLAYER,
+			tmp
+		);
+	});
 
-	PrimaryWorld::GetInstance()->BroadcastMessage(infoPacket, player);
+	player->ControlTabMenu(
+		PlayerInfoAction::ADD_PLAYER,
+		playersList
+	);
 }
 
 void PlayerEntity::OnDestroy() {
+	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
+	assert(player);
 
+	PlayerListEntry playerToRemove;
+	memcpy(playerToRemove.uuid, uuid, sizeof(uuid_t));
+
+	PrimaryWorld::GetInstance()->EnumeratePlayers([playerToRemove, player](Player* currentPlayer) {
+		if (currentPlayer == player) {
+			return;
+		}
+
+		currentPlayer->ControlTabMenu(PlayerInfoAction::REMOVE_PLAYER, { 
+			playerToRemove 
+		});
+	});
 }

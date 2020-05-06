@@ -37,6 +37,12 @@ public:
     uuid_t uuid;
     std::vector<PlayerListEntry> players;
 
+private:
+    void PlayerAdd(PlayerListEntry player);
+    void UpdateGameMode(PlayerListEntry player);
+    void UpdateLatency(PlayerListEntry player);
+    void UpdateDisplayName(PlayerListEntry player);
+
 public:
     PlayerInfoPacket() {
         isCompressed = true;
