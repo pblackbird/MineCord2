@@ -10,14 +10,14 @@ void Entity::EndMetadataArray() {
 }
 
 Entity::Entity(const std::string&& uuid) {
-	this->uuid = uuid;
+	uuid_parse(uuid.c_str(), this->uuid);
 
 	entityId = entityIndexCounter++;
 	entityName = "Unnamed creature";
 }
 
 Entity::Entity() {
-	uuid = Utl::GenerateUUID();
+	uuid_parse(Utl::GenerateUUID().c_str(), this->uuid);
 
 	entityId = entityIndexCounter++;
 	entityName = "Unnamed creature";

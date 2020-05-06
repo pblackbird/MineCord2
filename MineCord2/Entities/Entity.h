@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <uuid/uuid.h>
+
 #include "../ThirdParty/BufferedIO.h"
 #include "../MinecraftTypes.h"
 #include "../Transformable.h"
@@ -38,7 +40,9 @@ enum class BaseMetadataIndex : uint8_t {
 class Entity : public Transformable {
 protected:
 	entity_id entityId;
-	std::string entityName, uuid;
+	uuid_t uuid;
+
+	std::string entityName;
 	Buffer metadataBlob;
 
 public:
@@ -108,7 +112,7 @@ public:
 		return entityName;
 	}
 
-	std::string GetUUID() {
+	uuid_t &GetUUID() {
 		return uuid;
 	}
 

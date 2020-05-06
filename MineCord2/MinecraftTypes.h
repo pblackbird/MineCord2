@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <uuid/uuid.h>
 
 #include "ThirdParty/BufferedIO.h"
 
@@ -33,6 +34,8 @@ namespace MinecraftTypes {
 	std::string ReadString(Buffer& buff);
 	void WriteString(Buffer& buf, std::string str);
 	void WriteString(Buffer& buf, char str[], int size);
+
+	void WriteUUID(Buffer& dest, uuid_t uuid);
 
 	//static void WritePosition(Buffer& buff, Point3D position);
 	//static Point3D ReadPosition(Buffer& buff);
