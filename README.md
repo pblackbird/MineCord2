@@ -1,6 +1,9 @@
 Todo:
 
-- Make all NBT types support (Array of longs, array of ints, TAG_List) ✅
+- Make all NBT types support ✅
+1. Array of longs ✅
+2. Array of ints ✅
+3. TAG_List ✅
 ---
 - Make players synchronization
 1. Tab sync ✅
