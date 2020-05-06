@@ -1,7 +1,7 @@
 #include "JoinGamePacket.h"
 
 void JoinGamePacket::Build(Buffer& dest) {
-	packetId = JOIN_GAME_PACKETID;
+	PKT_BEGIN(JOIN_GAME_PACKETID);
 
 	buff.writeInt32_BE(entityId);
 	buff.writeUInt8((uint8_t)gamemode);

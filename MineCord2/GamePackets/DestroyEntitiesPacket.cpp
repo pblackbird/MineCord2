@@ -1,7 +1,7 @@
 #include "DestroyEntitiesPacket.h"
 
 void DestroyEntitiesPacket::Build(Buffer& dest) {
-	packetId = DESTROY_ENTITIES_PACKETID;
+	PKT_BEGIN(DESTROY_ENTITIES_PACKETID);
 
 	MinecraftTypes::WriteVarInt(buff, entities.size());
 

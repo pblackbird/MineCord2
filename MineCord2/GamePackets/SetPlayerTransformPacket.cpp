@@ -1,7 +1,7 @@
 #include "SetPlayerTransformPacket.h"
 
 void SetPlayerTransformPacket::Build(Buffer& dest) {
-	packetId = UPDATE_PLAYER_ANGLE_POS_PACKETID;
+	PKT_BEGIN(UPDATE_PLAYER_ANGLE_POS_PACKETID);
 
 	buff.writeDouble_BE(x);
 	buff.writeDouble_BE(y);

@@ -1,6 +1,20 @@
 #include "TCPClient.h"
 #include "TCPServer.h"
 
+void TCPClient::CheckFD() {
+	int events = EPOLLET;
+
+	if (buffers.recvFeedBytes > 0) {
+		events |= EPOLLIN;
+	}
+
+	if (buffers.sendFeedBytes > 0) {
+		events |= EPOLLOUT;
+	}
+
+	TCPServer::GetInstance()->ModifyEpollFD(clientSocket, events);
+}
+
 void TCPClient::SendData(const std::vector<uint8_t>& buffer) {
 	std::lock_guard<std::mutex> lock(_mutex);
 
@@ -9,6 +23,8 @@ void TCPClient::SendData(const std::vector<uint8_t>& buffer) {
 	for (const auto byte : buffer) {
 		buffers.sendBuffer.push_back(byte);
 	}
+
+	CheckFD();
 }
 
 void TCPClient::SendChunk() {
@@ -32,11 +48,13 @@ void TCPClient::SendChunk() {
 
 	ssize_t result = send(clientSocket, tmpBuffer.data(), tmpBuffer.size(), MSG_NOSIGNAL);
 
-	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-		TCPServer::GetInstance()->ModifyEpollFD(clientSocket, EPOLLOUT);
+	if (result < 0 && (errno != EAGAIN && errno != EWOULDBLOCK)) {
+		Disconnect();
 	} else {
 		buffers.sendBuffer.erase(buffers.sendBuffer.begin(), buffers.sendBuffer.begin() + result);
 		buffers.sendFeedBytes -= result;
+
+		CheckFD();
 	}
 }
 

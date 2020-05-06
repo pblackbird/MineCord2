@@ -7,7 +7,8 @@ void KeepAlivePacket::Parse(std::vector<uint8_t>& src) {
 }
 
 void KeepAlivePacket::Build(Buffer& dest) {
-	packetId = KEEP_ALIVE_PACKETID;
+	PKT_BEGIN(KEEP_ALIVE_PACKETID);
+
 	buff.writeInt64_BE(keepAliveId);
 
 	PKT_END();

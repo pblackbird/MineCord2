@@ -12,7 +12,7 @@
 static Logger logger("Chunk section manager");
 
 typedef struct {
-	int32_t palette;
+	int64_t palette;
 } Block;
 
 class ChunkSection {

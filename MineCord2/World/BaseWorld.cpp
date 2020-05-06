@@ -37,22 +37,24 @@ void BaseWorld::TickLoop() {
 		if (currentTPS <= tickRate) {
 			Tick();
 			currentTPS++;
-		}
+		} else {
+			const auto tickTimerFinish = std::chrono::high_resolution_clock::now();
+			const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+				tickTimerFinish - tickTimerStart
+			).count();
 
-		const auto tickTimerFinish = std::chrono::high_resolution_clock::now();
-		const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
-			tickTimerFinish - tickTimerStart
-		).count();
+			if (elapsed < 1000) {
+				usleep((uint32_t)((1000 - elapsed) * 1000));
 
-		if (elapsed == 1) {
-			PingPlayers();
+				PingPlayers();
 
-			if (currentTPS < tickRate) {
-				logger.Warning("Current TPS (%llu) is less than %llu", currentTPS, tickRate);
+				if (currentTPS < tickRate) {
+					logger.Warning("Current TPS (%llu) is less than %llu", currentTPS, tickRate);
+				}
+
+				currentTPS = 0;
+				tickTimerStart = std::chrono::high_resolution_clock::now();
 			}
-
-			currentTPS = 0;
-			tickTimerStart = std::chrono::high_resolution_clock::now();
 		}
 	}
 }
