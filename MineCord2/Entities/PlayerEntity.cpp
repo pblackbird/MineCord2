@@ -6,7 +6,7 @@
 #include <functional>
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
-	this->uuid = uuid;
+	uuid_parse(uuid.c_str(), this->uuid);
 }
 
 void PlayerEntity::BuildMetadata() {
