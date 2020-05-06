@@ -2,7 +2,7 @@
 #include "../GamePackets/ChunkDataPacket.h"
 #include "../World/PrimaryWorld.h"
 #include "../Map/TestMapManager.h"
-#include "../GamePackets/PlayInfoPacket.h"
+#include "../GamePackets/PlayerInfoPacket.h"
 #include <functional>
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
@@ -81,10 +81,10 @@ void PlayerEntity::OnCreate() {
 		rotation
 	);
 	
-	for (int chunkX = 0; chunkX < 1; chunkX++) {
-		//for (int chunkZ = 0; chunkZ < 1; chunkZ++) {
-			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, 0 }, player);
-		//}
+	for (int chunkX = 0; chunkX < 5; chunkX++) {
+		for (int chunkZ = 0; chunkZ < 5; chunkZ++) {
+			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, chunkZ }, player);
+		}
 	}
 
 	player->SetPlayerPositionChunk({ 0, 0 });

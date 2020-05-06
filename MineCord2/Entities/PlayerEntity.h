@@ -4,7 +4,7 @@
 
 #include "LivingEntity.h"
 #include "../Network/MinecraftNetworkClient.h"
-#include "../GamePackets/PlayInfoPacket.h"
+#include "../GamePackets/PlayerInfoPacket.h"
 
 enum class PlayerMetadataIndex : uint8_t {
 	ADDITIONAL_HEARTS = 11,
