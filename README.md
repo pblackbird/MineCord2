@@ -7,8 +7,8 @@ Todo:
 ---
 - Make players synchronization
 1. Tab sync ✅
-2. Players Spawn / Destroy sync 👩‍💻 (work in progress)
-3. Players movement
+2. Entity Spawn / Entity Destroy sync 👩‍💻 (work in progress)
+3. Entity movement sync
 ---
 - Make map engine
 ---
