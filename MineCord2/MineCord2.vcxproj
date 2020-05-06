@@ -89,6 +89,7 @@
     <ClCompile Include="GamePackets\SetEntityPositionRotationPacket.cpp" />
     <ClCompile Include="GamePackets\SetEntityRotationPacket.cpp" />
     <ClCompile Include="GamePackets\SetPlayerTransformPacket.cpp" />
+    <ClCompile Include="GamePackets\SpawnPlayerPacket.cpp" />
     <ClCompile Include="GamePackets\SyncClientPlayerPositionPacket.cpp" />
     <ClCompile Include="GamePackets\SyncClientPositionRotationPacket.cpp" />
     <ClCompile Include="GamePackets\UpdateViewPositionPacket.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="GamePackets\SetEntityPositionRotationPacket.h" />
     <ClInclude Include="GamePackets\SetEntityRotationPacket.h" />
     <ClInclude Include="GamePackets\SetPlayerTransformPacket.h" />
+    <ClInclude Include="GamePackets\SpawnPlayerPacket.h" />
     <ClInclude Include="GamePackets\SyncClientPlayerPositionPacket.h" />
     <ClInclude Include="GamePackets\SyncClientPositionRotationPacket.h" />
     <ClInclude Include="GamePackets\UpdateViewPositionPacket.h" />

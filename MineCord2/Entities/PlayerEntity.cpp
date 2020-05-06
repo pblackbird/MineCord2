@@ -74,7 +74,7 @@ void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 0, 200, 0 };
+	position = { 0, 193, 0 };
 
 	player->Join(GameMode::SURVIVAL);
 	player->SetTransform(
@@ -109,6 +109,8 @@ void PlayerEntity::OnCreate() {
 			PlayerInfoAction::ADD_PLAYER,
 			tmp
 		);
+
+		currentPlayer->SpawnVisiblePlayer(player);
 	});
 
 	player->ControlTabMenu(

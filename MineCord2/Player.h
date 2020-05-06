@@ -46,6 +46,7 @@ public:
 	void OnMsg(BaseNetPacket& msg);
 
 	void ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry> players);
+	void SpawnVisiblePlayer(Player* visiblePlayer);
 
 	void SetSlaveEntity(PlayerEntity* pEnt) {
 		pSlave = pEnt;
