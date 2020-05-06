@@ -44,7 +44,7 @@ void BaseWorld::TickLoop() {
 			tickTimerFinish - tickTimerStart
 		).count();
 
-		if (elapsed == 1000) {
+		if (elapsed >= 1000) {
 			PingPlayers();
 
 			if (currentTPS < tickRate) {
