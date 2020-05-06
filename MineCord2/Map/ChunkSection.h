@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <array>
 #include <cmath>
+#include <strings.h>
 
 #include "../Logger.h"
 #include "../ThirdParty/BufferedIO.h"
