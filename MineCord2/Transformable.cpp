@@ -1,5 +1,8 @@
 #include "Transformable.h"
 #include "Utl.h"
+#include "Math.h"
+
+#include <iostream>
 
 void Transformable::AcquirePosition(Point3D aPos) {
 	if (aPos.x != 0) {
@@ -43,6 +46,14 @@ void Transformable::SetRotation(Angle ang) {
 	AcquireRotation(ang);
 }
 
+void Transformable::SetLastPosition(Point3D pos) {
+	lastPosition = pos;
+}
+
+Point3D Transformable::GetLastPosition() {
+	return lastPosition;
+}
+
 void Transformable::SetPosition(double x, double y, double z) {
 	position.x = x;
 	position.y = y;
@@ -56,6 +67,13 @@ void Transformable::SetPosition(double x, double y, double z) {
 void Transformable::SetPosition(Point3D pos) {
 	position = pos;
 	AcquirePosition(pos);
+}
+
+AngleStep Transformable::GetStepByAngle(Angle angle) {
+	return {
+		(uint8_t)(int)(angle.pitch * 256.f / 360.f),
+		(uint8_t)(int)(angle.yaw * 256.f / 360.f)
+	};
 }
 
 void Transformable::Move(double x, double y, double z) {

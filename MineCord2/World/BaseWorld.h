@@ -33,6 +33,7 @@ protected:
 
 private:
 	void PingPlayers();
+	void SyncEntities();
 
 public:
 	BaseWorld() {

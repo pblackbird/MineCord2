@@ -13,8 +13,10 @@
 
 static std::map<int, OnPlayerAction_t> playerActionHandlers = {
 	{ CHAT_MSG_FROM_CLIENT_PACKETID, OnPlayerChatMessage },
+
 	{ SYNC_PLAYER_CLIENT, OnPlayerMove },
-	{ SYNC_PLAYER_CLIENT_ROTATION_POSITION, OnPlayerMove }
+	{ SYNC_PLAYER_CLIENT_ROTATION_POSITION, OnPlayerMove },
+	{ SYNC_PLAYER_CLIENT_ROTATION, OnPlayerMove }
 };
 
 Player::~Player() {

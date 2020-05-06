@@ -1,5 +1,7 @@
 #include "Entity.h"
 #include "../GamePackets/DestroyEntitiesPacket.h"
+#include "../GamePackets/SetEntityPositionRotationPacket.h"
+#include "../GamePackets/EntityMovementPacket.h"
 #include "../Utl.h"
 #include "../World/PrimaryWorld.h"
 
@@ -21,6 +23,37 @@ Entity::Entity() {
 
 	entityId = entityIndexCounter++;
 	entityName = "Unnamed creature";
+}
+
+void Entity::SyncEntity() {
+	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
+
+	EntityMovementPacket movePacket;
+	movePacket.id = entityId;
+
+	//PrimaryWorld::GetInstance()->BroadcastMessage(movePacket, player);
+
+	AngleStep steps = Transformable::GetStepByAngle(rotation);
+
+	Point3D deltaPosition = {
+		lastPosition.x,
+		lastPosition.y,
+		lastPosition.z
+	};
+
+	SetEntityPositionRotationPacket setTransform;
+	setTransform.isOnGround = true;
+	setTransform.id = entityId;
+	setTransform.angle = steps;
+	setTransform.deltaPosition = deltaPosition;
+
+	PrimaryWorld::GetInstance()->BroadcastMessage(setTransform, player);
+
+	lastPosition = { 0.0, 0.0, 0.0 };
+}
+
+void Entity::OnTick() {
+	
 }
 
 void Entity::OnDestroy() {

@@ -101,10 +101,14 @@ public:
 	Entity(const std::string&& uuid);
 	Entity();
 
-	virtual void OnTick() = 0;
+	virtual void SyncEntity();
+
+	virtual void OnTick();
 	virtual void OnCreate() = 0;
 
 	virtual void OnDestroy();
+
+	virtual ~Entity() {};
 
 	std::vector<uint8_t> GetMetadataBlob();
 

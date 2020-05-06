@@ -9,5 +9,9 @@ public:
 	std::vector<entity_id> entities;
 
 public:
+	DestroyEntitiesPacket() {
+		isCompressed = true;
+	}
+
 	virtual void Build(Buffer& dest) override;
 };
