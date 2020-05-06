@@ -117,6 +117,14 @@ void PlayerEntity::OnCreate() {
 		PlayerInfoAction::ADD_PLAYER,
 		playersList
 	);
+
+	PrimaryWorld::GetInstance()->EnumeratePlayers([player](Player* currentPlayer) {
+		if (player == currentPlayer) {
+			return;
+		}
+
+		player->SpawnVisiblePlayer(currentPlayer);
+	});
 }
 
 void PlayerEntity::OnDestroy() {
