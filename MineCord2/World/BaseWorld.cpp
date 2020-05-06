@@ -37,7 +37,7 @@ void BaseWorld::TickLoop() {
 		Tick();
 		currentTPS++;
 
-		usleep((uint32_t)(((double)tickRate / 1000.0) * 1000.0));
+		usleep((uint32_t)((1000.0 / (double)tickRate)));
 
 		const auto tickTimerFinish = std::chrono::high_resolution_clock::now();
 		const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
