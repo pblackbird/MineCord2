@@ -4,6 +4,7 @@
 #include <vector>
 #include "../MinecraftTypes.h"
 #include "../Packets/BaseNetPacket.h"
+#include <uuid/uuid.h>
 
 enum class PlayerInfoAction {
     ADD_PLAYER,
@@ -21,7 +22,7 @@ typedef struct {
 } PlayerPropertyListEntry;
 
 typedef struct {
-    std::string uuid;
+    uuid_t uuid;
     std::string name;
     std::vector<PlayerPropertyListEntry> properties;
     GameMode gamemode;
@@ -33,7 +34,7 @@ typedef struct {
 class PlayerInfoPacket : public BaseNetPacket {
 public:
     PlayerInfoAction action;
-    std::string uuid;
+    uuid_t uuid;
     std::vector<PlayerListEntry> players;
 
 public:

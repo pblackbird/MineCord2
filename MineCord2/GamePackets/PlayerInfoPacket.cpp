@@ -7,13 +7,9 @@ void PlayerInfoPacket::Build(Buffer& dest) {
     MinecraftTypes::WriteVarInt(buff, (int)players.size());
 
     for (int i = 0; i < (int)players.size(); i++) {
-        // todo: uuid
-        for (int j = 0; j < 16; j++) {
-            buff.writeUInt8(0x11);
-        }
-
         PlayerListEntry player = players[i];
 
+        MinecraftTypes::WriteUUID(buff, player.uuid);
         MinecraftTypes::WriteString(buff, player.name);
         MinecraftTypes::WriteVarInt(buff, (int)player.properties.size());
 

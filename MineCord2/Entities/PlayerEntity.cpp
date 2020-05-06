@@ -4,6 +4,7 @@
 #include "../Map/TestMapManager.h"
 #include "../GamePackets/PlayerInfoPacket.h"
 #include <functional>
+#include <string.h>
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
 	uuid_parse(uuid.c_str(), this->uuid);
@@ -46,7 +47,7 @@ void PushPlayer(std::vector<PlayerListEntry>& list, Player* existPlayer) {
 
 	PlayerListEntry playerListEntry;
 
-	playerListEntry.uuid = playerSlave->GetUUID();
+	memcpy(playerListEntry.uuid, playerSlave->GetUUID(), sizeof(uuid_t));
 	playerListEntry.hasDisplayName = /* HARD CODE */ true;
 	playerListEntry.ping = /* HARD CODE */ 0;
 	playerListEntry.gamemode = /* HARD CODE */ GameMode::SURVIVAL;
@@ -98,7 +99,7 @@ void PlayerEntity::OnCreate() {
 
 	PlayerInfoPacket infoPacket;
 	infoPacket.action = PlayerInfoAction::ADD_PLAYER;
-	infoPacket.uuid = uuid;
+	memcpy(infoPacket.uuid, uuid, sizeof(uuid_t));
 	infoPacket.players = playersList;
 
 	player->GetNetClient()->Invoke(infoPacket);
