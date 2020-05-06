@@ -90,3 +90,11 @@ void Player::OnMsg(BaseNetPacket& msg) {
 
 	playerActionHandlers[msg.packetId](this, msg);
 }
+
+void Player::ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry> players) {
+	PlayerInfoPacket infoPacket;
+	infoPacket.action = action;
+	infoPacket.players = players;
+
+	pNetClient->Invoke(infoPacket);
+}

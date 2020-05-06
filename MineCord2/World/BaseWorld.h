@@ -10,6 +10,7 @@
 #include "../Entities/Entity.h"
 #include "../Logger.h"
 #include "../GamePackets/SetPlayerTransformPacket.h"
+#include <functional>
 
 class BaseWorld {
 private:
@@ -61,6 +62,8 @@ public:
 	Player* GetPlayerBySlaveId(entity_id slaveId);
 	Player* GetPlayerByNetworkClientId(int clientId);
 	int GetPlayerIndexByNetworkClientId(int clientId);
+
+	void EnumeratePlayers(std::function<void(Player* player)> callback);
 
 	void Run();
 };
