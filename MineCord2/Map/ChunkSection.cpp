@@ -11,6 +11,7 @@ void ChunkSection::Serialize(Buffer& dest) {
 	MinecraftTypes::WriteVarInt(dest, GetLongsCount(BITS_PER_BLOCK));
 
 	uint64_t longs[GetLongsCount(BITS_PER_BLOCK)];
+	bzero(longs, GetLongsCount(BITS_PER_BLOCK) * sizeof(uint64_t));
 
 	for (int i = 0; i < (int)(sizeof(blocks) / sizeof(Block)); i++) {
 		Block block = blocks[i];
