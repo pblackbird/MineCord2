@@ -8,7 +8,7 @@ std::string MinecraftTypes::ReadString(Buffer& buff) {
 }
 
 void MinecraftTypes::WriteString(Buffer& buff, std::string str) {
-    WriteVarInt(buff, (int)str.length());
+    WriteVarInt(buff, (int)str.size());
     buff.writeStr(str);
 }
 

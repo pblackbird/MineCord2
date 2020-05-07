@@ -8,11 +8,15 @@
 
 #include "PlayerActions/PlayerMove.h"
 #include "PlayerActions/ChatMsg.h"
+#include "GamePackets/SpawnPlayerPacket.h"
+#include <string.h>
 
 static std::map<int, OnPlayerAction_t> playerActionHandlers = {
 	{ CHAT_MSG_FROM_CLIENT_PACKETID, OnPlayerChatMessage },
+
 	{ SYNC_PLAYER_CLIENT, OnPlayerMove },
-	{ SYNC_PLAYER_CLIENT_ROTATION_POSITION, OnPlayerMove }
+	{ SYNC_PLAYER_CLIENT_ROTATION_POSITION, OnPlayerMove },
+	{ SYNC_PLAYER_CLIENT_ROTATION, OnPlayerMove }
 };
 
 Player::~Player() {
@@ -97,4 +101,20 @@ void Player::ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry
 	infoPacket.players = players;
 
 	pNetClient->Invoke(infoPacket);
+}
+
+void Player::SpawnVisiblePlayer(Player* visiblePlayer) {
+	const auto visiblePlayerEntity = visiblePlayer->GetSlaveEntity();
+
+	SpawnPlayerPacket packet;
+	packet.id = visiblePlayerEntity->GetID();
+	memcpy(packet.uuid, visiblePlayerEntity->GetUUID(), sizeof(uuid_t));
+	packet.position = visiblePlayerEntity->GetPosition();
+	packet.rotation = visiblePlayerEntity->GetRotation();
+
+	visiblePlayerEntity->BuildMetadata();
+	
+	packet.metadata = visiblePlayerEntity->GetMetadataBlob();
+
+	pNetClient->Invoke(packet);
 }

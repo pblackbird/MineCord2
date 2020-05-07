@@ -7,7 +7,7 @@ class SetEntityPositionRotationPacket : public BaseNetPacket {
 public:
 	entity_id id;
 	Point3D deltaPosition;
-	Angle angle;
+	AngleStep angle;
 	bool isOnGround;
 
 public:

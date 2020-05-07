@@ -21,6 +21,12 @@ void BaseWorld::PingPlayers() {
 	}
 }
 
+void BaseWorld::SyncEntities() {
+	for (std::map<ssize_t, Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
+		i->second->SyncEntity();
+	}
+}
+
 void BaseWorld::Tick() {
 	std::lock_guard<std::mutex> lock(_entityMutex);
 

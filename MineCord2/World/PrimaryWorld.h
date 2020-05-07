@@ -16,5 +16,7 @@ public:
 	}
 
 public:
+	PrimaryWorld();
+
 	virtual void Tick() override;
 };

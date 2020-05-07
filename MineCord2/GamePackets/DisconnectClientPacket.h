@@ -1,15 +1,13 @@
 #pragma once
 
-#include <vector>
-
 #include "../Packets/BaseNetPacket.h"
 
-class DestroyEntitiesPacket : public BaseNetPacket {
+class DisconnectClientPacket : public BaseNetPacket {
 public:
-	std::vector<entity_id> entities;
+	std::string reason;
 
 public:
-	DestroyEntitiesPacket() {
+	DisconnectClientPacket() {
 		isCompressed = true;
 	}
 

@@ -3,6 +3,7 @@
 #include "../World/PrimaryWorld.h"
 #include "../Map/TestMapManager.h"
 #include "../GamePackets/PlayerInfoPacket.h"
+#include "../GamePackets/SetEntityRotationPacket.h"
 #include <functional>
 #include <string.h>
 
@@ -39,7 +40,7 @@ void PlayerEntity::BuildMetadata() {
 }
 
 void PlayerEntity::OnTick() {
-	
+	Entity::OnTick();
 }
 
 void PushPlayer(std::vector<PlayerListEntry>& list, Player* existPlayer) {
@@ -74,7 +75,7 @@ void PlayerEntity::OnCreate() {
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 0, 200, 0 };
+	position = { 0, 193, 0 };
 
 	player->Join(GameMode::SURVIVAL);
 	player->SetTransform(
@@ -82,8 +83,8 @@ void PlayerEntity::OnCreate() {
 		rotation
 	);
 	
-	for (int chunkX = 0; chunkX < 5; chunkX++) {
-		for (int chunkZ = 0; chunkZ < 5; chunkZ++) {
+	for (int chunkX = 0; chunkX < 1; chunkX++) {
+		for (int chunkZ = 0; chunkZ < 1; chunkZ++) {
 			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, chunkZ }, player);
 		}
 	}
@@ -109,12 +110,22 @@ void PlayerEntity::OnCreate() {
 			PlayerInfoAction::ADD_PLAYER,
 			tmp
 		);
+
+		currentPlayer->SpawnVisiblePlayer(player);
 	});
 
 	player->ControlTabMenu(
 		PlayerInfoAction::ADD_PLAYER,
 		playersList
 	);
+
+	PrimaryWorld::GetInstance()->EnumeratePlayers([player](Player* currentPlayer) {
+		if (player == currentPlayer) {
+			return;
+		}
+
+		player->SpawnVisiblePlayer(currentPlayer);
+	});
 }
 
 void PlayerEntity::OnDestroy() {
@@ -133,4 +144,6 @@ void PlayerEntity::OnDestroy() {
 			playerToRemove 
 		});
 	});
+
+	Entity::OnDestroy();
 }

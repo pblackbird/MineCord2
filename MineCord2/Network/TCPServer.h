@@ -48,11 +48,7 @@ public:
 		event.data.fd = fd;
 		event.events = events;
 
-		int result = epoll_ctl(epollFD, EPOLL_CTL_MOD, fd, &event);
-
-		if (result < 0) {
-			logger.Error("epoll_ctl() with EPOLL_CTL_MOD failed: %i", fd);
-		}
+		epoll_ctl(epollFD, EPOLL_CTL_MOD, fd, &event);
 	}
 
 private:
