@@ -53,7 +53,7 @@ void MinecraftNetworkClient::OnChunk(const std::vector<uint8_t>& buffer) {
 		OnMessageReceived(tmpBuffer);
 
 		state = TcpRawState::IDLE;
-		CheckFD();
+		OnChunk(std::vector<uint8_t>(buffers.recvBuffer));
 	}
 
 	if(buffer.size() == buffers.recvFeedBytes) {
