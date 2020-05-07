@@ -1,4 +1,6 @@
-Todo:
+trello: https://trello.com/b/5Mfq15vA/minecord
+
+Short todo list:
 
 - Make all NBT types support ✅
 1. Array of longs ✅
