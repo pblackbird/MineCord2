@@ -4,6 +4,7 @@
 #include "../Map/TestMapManager.h"
 #include "../GamePackets/PlayerInfoPacket.h"
 #include "../GamePackets/SetEntityRotationPacket.h"
+#include "../GamePackets/ServerChatSayPacket.h"
 #include <functional>
 #include <string.h>
 
@@ -126,6 +127,11 @@ void PlayerEntity::OnCreate() {
 
 		player->SpawnVisiblePlayer(currentPlayer);
 	});
+
+	ServerChatSayPacket say;
+	say.m_json = "{\"text\": \"Player " + player->GetNetClient()->GetUsername() + " has joined the game\"}";
+
+	PrimaryWorld::GetInstance()->BroadcastMessage(say);
 }
 
 void PlayerEntity::OnDestroy() {

@@ -3,7 +3,7 @@
 PrimaryWorld* PrimaryWorld::pSingleton;
 
 PrimaryWorld::PrimaryWorld() : BaseWorld() {
-	tickRate = 20;
+	tickRate = 60;
 }
 
 void PrimaryWorld::Tick() {
