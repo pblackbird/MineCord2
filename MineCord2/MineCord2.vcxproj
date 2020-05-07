@@ -82,6 +82,8 @@
     <ClCompile Include="GamePackets\ChunkDataPacket.cpp" />
     <ClCompile Include="GamePackets\ClientChatSayPacket.cpp" />
     <ClCompile Include="GamePackets\DestroyEntitiesPacket.cpp" />
+    <ClCompile Include="GamePackets\DisconnectClientPacket.cpp" />
+    <ClCompile Include="GamePackets\EntityHeadLookPacket.cpp" />
     <ClCompile Include="GamePackets\EntityMovementPacket.cpp" />
     <ClCompile Include="GamePackets\JoinGamePacket.cpp" />
     <ClCompile Include="GamePackets\KeepAlivePacket.cpp" />
@@ -149,6 +151,8 @@
     <ClInclude Include="GamePackets\ChunkDataPacket.h" />
     <ClInclude Include="GamePackets\ClientChatSayPacket.h" />
     <ClInclude Include="GamePackets\DestroyEntitiesPacket.h" />
+    <ClInclude Include="GamePackets\DisconnectClientPacket.h" />
+    <ClInclude Include="GamePackets\EntityHeadLookPacket.h" />
     <ClInclude Include="GamePackets\EntityMovementPacket.h" />
     <ClInclude Include="GamePackets\JoinGamePacket.h" />
     <ClInclude Include="GamePackets\KeepAlivePacket.h" />

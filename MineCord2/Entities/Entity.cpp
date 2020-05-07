@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "../GamePackets/DestroyEntitiesPacket.h"
 #include "../GamePackets/SetEntityPositionRotationPacket.h"
+#include "../GamePackets/EntityHeadLookPacket.h"
 #include "../GamePackets/EntityMovementPacket.h"
 #include "../Utl.h"
 #include "../World/PrimaryWorld.h"
@@ -48,6 +49,11 @@ void Entity::SyncEntity() {
 	setTransform.deltaPosition = deltaPosition;
 
 	PrimaryWorld::GetInstance()->BroadcastMessage(setTransform, player);
+
+	EntityHeadLookPacket headYawPacket;
+	headYawPacket.id = entityId;
+	headYawPacket.headYaw = steps.yaw;
+	PrimaryWorld::GetInstance()->BroadcastMessage(headYawPacket, player);
 
 	lastPosition = { 0.0, 0.0, 0.0 };
 }

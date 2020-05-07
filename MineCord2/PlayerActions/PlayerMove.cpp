@@ -61,16 +61,5 @@ void OnPlayerMove(Player* player, BaseNetPacket& msg) {
 		}
 	}
 
-	/*logger.Info(
-		"Player %s pos = %lf %lf %lf (%0.2f %0.2f)", 
-		player->GetSlaveEntity()->GetName().c_str(), 
-		newPosition.x,
-		newPosition.y,
-		newPosition.z,
-
-		newAngle.pitch,
-		newAngle.yaw
-	);*/
-
 	UpdatePlayerTransform(player, newPosition, newAngle);
 }

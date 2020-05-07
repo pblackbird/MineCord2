@@ -4,6 +4,9 @@
 #include <vector>
 #include <zlib.h>
 #include <strings.h>
+#include <locale>
+#include <codecvt>
+#include <cwchar>
 
 #include "Logger.h"
 
