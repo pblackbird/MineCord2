@@ -5,16 +5,14 @@
 #include <cmath>
 #include <strings.h>
 
+#include "Block.h"
+#include "../Transformable.h"
 #include "../Logger.h"
 #include "../ThirdParty/BufferedIO.h"
 
 #define BITS_PER_BLOCK 14
 
 static Logger logger("Chunk section manager");
-
-typedef struct {
-	int64_t palette;
-} Block;
 
 class ChunkSection {
 private:
@@ -23,6 +21,8 @@ private:
 public:
 	void Serialize(Buffer& dest);
 	uint16_t GetBlockEntityCount();
+
+	int BlockRelativePositionToIndex(Point3D position);
 
 	Block GetBlock(uint32_t index) {
 		return blocks[index];

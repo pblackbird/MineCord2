@@ -5,7 +5,7 @@
 
 class ChunkDataPacket : public BaseNetPacket {
 public:
-	Chunk chunk;
+	Chunk *chunk;
 
 public:
 	ChunkDataPacket() {

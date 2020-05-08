@@ -2,4 +2,4 @@
 
 #include "PacketIdentities/1_14_4.h"
 
-#define VERSION L"0.05.1 DEV"
+#define VERSION L"0.05.3 DEV"

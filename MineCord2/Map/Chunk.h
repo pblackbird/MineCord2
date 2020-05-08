@@ -3,13 +3,19 @@
 #include <cmath>
 #include <cassert>
 #include <strings.h>
+#include <functional>
 
 #include "ChunkSection.h"
+#include "../Transformable.h"
 #include "../ThirdParty/BufferedIO.h"
 
+class Chunk;
+
 typedef struct {
-	uint32_t x, z;
+	int32_t x, z;
 } ChunkPosition;
+
+using OnChunkBlockChanged_t = std::function<void (Chunk*, Block)>;
 
 /*
 	16x256x16 chunk
@@ -17,12 +23,20 @@ typedef struct {
 
 class Chunk {
 private:
-	uint32_t x, z;
+	int32_t x, z;
 	ChunkSection sections[16];
+	OnChunkBlockChanged_t blockChangedCallback = nullptr;
 
 public:
 	void Serialize(Buffer& dest);
 
+	void SetBlockChangedCallback(OnChunkBlockChanged_t callback) {
+		blockChangedCallback = callback;
+	}
+
+	void SetBlock(Block block, Point3D position);
+	Block GetBlock(Point3D position);
+		
 	void SetPosition(ChunkPosition pos) {
 		x = pos.x;
 		z = pos.z;

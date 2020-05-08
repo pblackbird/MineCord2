@@ -43,6 +43,10 @@ public:
 
 	~Player();
 
+	std::string GetUsername() {
+		return pNetClient->GetUsername();
+	}
+
 	void OnMsg(BaseNetPacket& msg);
 
 	void ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry> players);

@@ -46,14 +46,6 @@ void Transformable::SetRotation(Angle ang) {
 	AcquireRotation(ang);
 }
 
-void Transformable::SetLastPosition(Point3D pos) {
-	lastPosition = pos;
-}
-
-Point3D Transformable::GetLastPosition() {
-	return lastPosition;
-}
-
 void Transformable::SetPosition(double x, double y, double z) {
 	position.x = x;
 	position.y = y;

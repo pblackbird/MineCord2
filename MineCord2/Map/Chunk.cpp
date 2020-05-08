@@ -43,3 +43,39 @@ void Chunk::Serialize(Buffer& dest) {
 		dest.writeInt32_BE(0);
 	}
 }
+
+void Chunk::SetBlock(Block block, Point3D position) {
+	if (position.y >= 256.f) {
+		return;
+	}
+
+	const int sectionIndex = (int)position.y / 16;
+
+	ChunkSection section = sections[sectionIndex];
+
+	int blockIndex = section.BlockRelativePositionToIndex({
+		position.x,
+		(float)((int)position.y % 16),
+		position.z
+	});
+		
+	sections[sectionIndex].SetBlock(blockIndex, block);
+
+	if (blockChangedCallback) {
+		blockChangedCallback(this, block);
+	}
+}
+
+Block Chunk::GetBlock(Point3D position) {
+	if (position.y >= 256.f) {
+		return AIR_BLOCK;
+	}
+
+	ChunkSection section = sections[(int)position.y / 16];
+
+	return section.GetBlock(section.BlockRelativePositionToIndex({
+		position.x,
+		(float)((int)position.y % 16),
+		position.z
+	}));
+}

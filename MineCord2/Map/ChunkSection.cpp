@@ -34,6 +34,10 @@ void ChunkSection::Serialize(Buffer& dest) {
 	}
 }
 
+int ChunkSection::BlockRelativePositionToIndex(Point3D position) {
+	return (((int)position.y * 16 + (int)position.z) * 16) + (int)position.x;
+}
+
 uint16_t ChunkSection::GetBlockEntityCount() {
 	uint16_t nonAirBlocks = 0;
 

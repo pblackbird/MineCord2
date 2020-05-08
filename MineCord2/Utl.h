@@ -10,6 +10,15 @@
 
 #include "Logger.h"
 
+#define DECLARE_SINGLETON(TYPE) \
+	private: \
+		static TYPE* pSingleton; \
+	public: \
+		static TYPE* GetInstance() {\
+			if(!pSingleton) pSingleton = new TYPE();\
+			return pSingleton;\
+		}
+
 #define INFLATE_CHUNK_SIZE 4096
 
 enum class CompressionMethod {

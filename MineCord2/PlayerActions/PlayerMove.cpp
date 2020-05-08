@@ -8,17 +8,18 @@ void UpdatePlayerTransform(Player* player, Point3D pos, Angle rotation) {
 
 	const auto currentPlayerPos = playerEntity->GetPosition();
 
-	Point3D vecMove = {
-		(pos.x * 32 - currentPlayerPos.x * 32) * 128,
-		(pos.y * 32 - currentPlayerPos.y * 32) * 128,
-		(pos.z * 32 - currentPlayerPos.z * 32) * 128,
-	};
+	Vector vecMove({
+		(pos.x - currentPlayerPos.x),
+		(pos.y - currentPlayerPos.y),
+		(pos.z - currentPlayerPos.z),
+	});
 
-	playerEntity->SetLastPosition(vecMove);
-	playerEntity->SetPosition(pos);
+	playerEntity->SetMovementDirection(vecMove);
+
 	playerEntity->SetRotation(rotation);
 
-	playerEntity->SyncEntity();
+	playerEntity->OnNetSync();
+	playerEntity->OnMove();
 }
 
 void OnPlayerMove(Player* player, BaseNetPacket& msg) {

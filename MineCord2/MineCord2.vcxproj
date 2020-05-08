@@ -98,8 +98,9 @@
     <ClCompile Include="GamePackets\SyncClientPositionRotationPacket.cpp" />
     <ClCompile Include="GamePackets\UpdateViewPositionPacket.cpp" />
     <ClCompile Include="Map\Chunk.cpp" />
+    <ClCompile Include="Map\ChunkManager.cpp" />
     <ClCompile Include="Map\ChunkSection.cpp" />
-    <ClCompile Include="Map\TestMapManager.cpp" />
+    <ClCompile Include="Map\MapManager.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="NBT\NBT.cpp" />
     <ClCompile Include="NBT\NBTByte.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="ThirdParty\BufferedIO.cpp" />
     <ClCompile Include="MinecraftTypes.cpp" />
     <ClCompile Include="Utl.cpp" />
+    <ClCompile Include="Vector.cpp" />
     <ClCompile Include="World\BaseWorld.cpp" />
     <ClCompile Include="World\PrimaryWorld.cpp" />
   </ItemGroup>
@@ -166,9 +168,11 @@
     <ClInclude Include="GamePackets\SyncClientPlayerRotationPacket.h" />
     <ClInclude Include="GamePackets\SyncClientPositionRotationPacket.h" />
     <ClInclude Include="GamePackets\UpdateViewPositionPacket.h" />
+    <ClInclude Include="Map\Block.h" />
     <ClInclude Include="Map\Chunk.h" />
+    <ClInclude Include="Map\ChunkManager.h" />
     <ClInclude Include="Map\ChunkSection.h" />
-    <ClInclude Include="Map\TestMapManager.h" />
+    <ClInclude Include="Map\MapManager.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="NBT\NBT.h" />
     <ClInclude Include="NBT\NBTByte.h" />
@@ -213,6 +217,7 @@
     <ClInclude Include="Utl.h" />
     <ClInclude Include="ThirdParty\BufferedIO.h" />
     <ClInclude Include="MinecraftTypes.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="VERSION.h" />
     <ClInclude Include="World\BaseWorld.h" />
     <ClInclude Include="Map\IMapManager.h" />
