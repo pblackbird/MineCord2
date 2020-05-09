@@ -8,6 +8,7 @@
 #include "ChunkSection.h"
 #include "../Transformable.h"
 #include "../ThirdParty/BufferedIO.h"
+#include "../MinecraftTypes.h"
 
 class Chunk;
 
@@ -25,6 +26,8 @@ class Chunk {
 private:
 	int32_t x, z;
 	ChunkSection sections[16];
+
+
 	OnChunkBlockChanged_t blockChangedCallback = nullptr;
 
 public:
@@ -36,7 +39,11 @@ public:
 
 	void SetBlock(Block block, Point3D position);
 	Block GetBlock(Point3D position);
-		
+
+	std::vector<entity_id> GetEntitiesInside();
+
+	int32_t GetID();
+
 	void SetPosition(ChunkPosition pos) {
 		x = pos.x;
 		z = pos.z;

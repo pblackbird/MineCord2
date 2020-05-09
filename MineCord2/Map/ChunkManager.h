@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <thread>
+#include <mutex>
 
 #include "Chunk.h"
 #include "../Utl.h"
@@ -17,10 +19,18 @@ DECLARE_SINGLETON(ChunkManager)
 
 private:
 	ChunkMap loadedChunks;
+	std::thread chunkDisposerThread;
+
+	static std::mutex mutex;
 
 public:
-	ChunkManager();
+	static int32_t GetChunkID(ChunkPosition position);
 
+	void RunDisposer();
+
+	void DisposeUnusedChunks();
+
+	bool DisposeChunk(ChunkPosition position);
 	Chunk* LoadChunkFromDisk(ChunkPosition position);
 	Chunk* GetChunkByPosition(ChunkPosition position);
 };

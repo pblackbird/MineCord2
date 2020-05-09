@@ -18,8 +18,8 @@ void UpdatePlayerTransform(Player* player, Point3D pos, Angle rotation) {
 
 	playerEntity->SetRotation(rotation);
 
+	playerEntity->OnMove(pos);
 	playerEntity->OnNetSync();
-	playerEntity->OnMove();
 }
 
 void OnPlayerMove(Player* player, BaseNetPacket& msg) {

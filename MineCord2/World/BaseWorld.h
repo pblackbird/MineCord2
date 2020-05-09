@@ -64,7 +64,10 @@ public:
 	Player* GetPlayerByNetworkClientId(int clientId);
 	int GetPlayerIndexByNetworkClientId(int clientId);
 
+	Entity* GetEntityByID(entity_id id);
+
 	void EnumeratePlayers(std::function<void(Player* player)> callback);
+	void EnumerateEntities(std::function<void(Entity * entity)> callback);
 
 	void Run();
 };

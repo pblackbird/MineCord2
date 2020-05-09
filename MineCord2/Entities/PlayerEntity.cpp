@@ -10,6 +10,7 @@
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
 	uuid_parse(uuid.c_str(), this->uuid);
+	isPlayer = true;
 }
 
 void PlayerEntity::BuildMetadata() {
@@ -87,7 +88,7 @@ void PlayerEntity::OnCreate() {
 		rotation
 	);
 	
-	MapManager::GetInstance()->OnChunkBorderCrossed({ (int)position.x / 16, (int)position.z / 16 }, player);
+	MapManager::GetInstance()->OnChunkBorderCrossed({ (int)position.x / 16, (int)position.z / 16 }, { 0, 0 }, player);
 
 	// Fill new player's tab menu with already connected players
 	std::vector<PlayerListEntry> playersList;

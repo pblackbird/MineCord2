@@ -2,7 +2,9 @@
 #include "../MinecraftTypes.h"
 #include "../NBT/NBTCompound.h"
 #include "../NBT/NBTLongArray.h"
+#include "../World/PrimaryWorld.h"
 #include "../Utl.h"
+#include "../Map/ChunkManager.h"
 
 void Chunk::Serialize(Buffer& dest) {
 	NBTLongArray *test = new NBTLongArray();
@@ -78,4 +80,28 @@ Block Chunk::GetBlock(Point3D position) {
 		(float)((int)position.y % 16),
 		position.z
 	}));
+}
+
+std::vector<entity_id> Chunk::GetEntitiesInside() {
+	const auto world = PrimaryWorld::GetInstance();
+	std::vector<entity_id> result;
+
+	const auto thisChunkPosition = this->GetPosition();
+
+	world->EnumerateEntities([&result, thisChunkPosition](Entity* entity) {
+		const auto entityChunkPosition = entity->GetCurrentChunkPosition();
+
+		bool xmatch = entityChunkPosition.x == thisChunkPosition.x;
+		bool zmatch = entityChunkPosition.z == thisChunkPosition.z;
+
+		if (xmatch && zmatch) {
+			result.push_back(entity->GetID());
+		}
+	});
+
+	return result;
+}
+
+int32_t Chunk::GetID() {
+	return ChunkManager::GetChunkID({ x, z });
 }

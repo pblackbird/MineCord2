@@ -1,18 +1,15 @@
 #include "MapManager.h"
 #include "../World/PrimaryWorld.h"
 #include "../GamePackets/ChunkDataPacket.h"
+#include "../GamePackets/UnloadChunkPacket.h"
 
 MapManager* MapManager::pSingleton;
 
-void MapManager::OnChunkBorderCrossed(ChunkPosition newChunkPosition, Player* crosser) {
-	int chunkCrosslineLength = (int)std::sqrt(REGION_SIZE_IN_CHUNKS);
+void MapManager::OnChunkBorderCrossed(ChunkPosition newChunkPosition, ChunkPosition oldChunkPosition, Player* crosser) {
+	const auto chunkManager = ChunkManager::GetInstance();
+	const auto world = PrimaryWorld::GetInstance();
 
-	logger.Info(
-		"%s crossed chunk border. New chunk - (%i %i)", 
-		crosser->GetUsername().c_str(),
-		newChunkPosition.x,
-		newChunkPosition.z
-	);
+	int chunkCrosslineLength = 2;
 
 	for (int z = -chunkCrosslineLength; z < chunkCrosslineLength; z++) {
 		for (int x = -chunkCrosslineLength; x < chunkCrosslineLength; x++) {
@@ -24,6 +21,28 @@ void MapManager::OnChunkBorderCrossed(ChunkPosition newChunkPosition, Player* cr
 			SendChunkAtPosition(loadingChunkPosition, crosser);
 		}
 	}
+
+	/*if (oldChunkPosition.x == newChunkPosition.x && oldChunkPosition.z == newChunkPosition.z) {
+		return;
+	}
+
+	const auto xDiff = newChunkPosition.x - oldChunkPosition.x;
+	const auto zDiff = newChunkPosition.z - oldChunkPosition.z;
+
+	if (xDiff > chunkCrosslineLength || zDiff > chunkCrosslineLength) {
+		auto oldChunk = chunkManager->GetChunkByPosition(oldChunkPosition);
+		auto entityIdsInChunk = oldChunk->GetEntitiesInside();
+
+		if (entityIdsInChunk.size() == 0) {
+			chunkManager->DisposeChunk(oldChunkPosition);
+		}
+
+		UnloadChunkPacket unloadMsg;
+		unloadMsg.x = oldChunkPosition.x;
+		unloadMsg.z = oldChunkPosition.z;
+
+		crosser->GetNetClient()->Invoke(unloadMsg);
+	}*/
 }
 
 void MapManager::SendChunkAtPosition(ChunkPosition position, Player* player) {
@@ -34,12 +53,6 @@ void MapManager::SendChunkAtPosition(ChunkPosition position, Player* player) {
 	);
 
 	if (!playerChunk) {
-		logger.Info(
-			"Chunk at position %i %i is not loaded! Loading it from disk ...", 
-			position.x,
-			position.z
-		);
-
 		playerChunk = chunkManager->LoadChunkFromDisk(position);
 	}
 

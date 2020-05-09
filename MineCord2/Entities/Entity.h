@@ -47,8 +47,12 @@ protected:
 	Vector movementDirection;
 	ChunkPosition lastChunkPosition;
 
+	Point3D lastKnownPosition;
+
 	std::string entityName;
 	Buffer metadataBlob;
+
+	bool isPlayer = false;
 
 public:
 	uint8_t stateMask = 0;
@@ -106,7 +110,7 @@ public:
 	Entity(const std::string&& uuid);
 	Entity();
 
-	virtual void OnMove();
+	virtual void OnMove(Point3D newPos);
 
 	// synchronization logic
 	virtual void OnNetSync();
@@ -120,6 +124,10 @@ public:
 
 	std::vector<uint8_t> GetMetadataBlob();
 	ChunkPosition GetCurrentChunkPosition();
+
+	bool IsPlayer() {
+		return isPlayer;
+	}
 
 	void SetMovementDirection(Vector dir) {
 		movementDirection = dir;

@@ -24,9 +24,9 @@ void BaseWorld::PingPlayers() {
 void BaseWorld::Tick() {
 	std::lock_guard<std::mutex> lock(_entityMutex);
 
-	for (std::map<entity_id, Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
-		i->second->OnTick();
-	}
+	EnumerateEntities([](Entity* entity) {
+		entity->OnTick();
+	});
 }
 
 void BaseWorld::TickLoop() {
@@ -155,9 +155,19 @@ int BaseWorld::GetPlayerIndexByNetworkClientId(int clientId) {
 	return -1;
 }
 
+Entity* BaseWorld::GetEntityByID(entity_id id) {
+	return entities[id];
+}
+
 void BaseWorld::EnumeratePlayers(std::function<void(Player* player)> callback) {
 	for (Player* player : this->players) {
 		callback(player);
+	}
+}
+
+void BaseWorld::EnumerateEntities(std::function<void(Entity * entity)> callback) {
+	for (std::map<entity_id, Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
+		callback(i->second);
 	}
 }
 

@@ -27,29 +27,31 @@ Entity::Entity() {
 	entityName = "Unnamed creature";
 }
 
-void Entity::OnMove() {
+void Entity::OnMove(Point3D newPos) {
 	const auto currentChunkPos = GetCurrentChunkPosition();
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 
 	const auto dir = movementDirection.GetDirection();
 
+	lastKnownPosition = {
+		(newPos.x * 32 - position.x * 32) * 128,
+		(newPos.y * 32 - position.y * 32) * 128,
+		(newPos.z * 32 - position.z * 32) * 128,
+	};
+
 	Move(dir.x, dir.y, dir.z);
 
 	if (currentChunkPos.x != lastChunkPosition.x || currentChunkPos.z != lastChunkPosition.z) {
 		if (player) {
-			MapManager::GetInstance()->OnChunkBorderCrossed(currentChunkPos, player);
+			MapManager::GetInstance()->OnChunkBorderCrossed(currentChunkPos, lastChunkPosition, player);
 			lastChunkPosition = currentChunkPos;
 		}
 	}
-
-	logger.Info("Pos %i %i", currentChunkPos.x, currentChunkPos.z);
 }
 
 void Entity::OnNetSync() {
 	const auto world = PrimaryWorld::GetInstance();
 	const auto player = world->GetPlayerBySlaveId(entityId);
-
-	const auto movementDir = movementDirection.GetDirection();
 
 	AngleStep steps = Transformable::GetStepByAngle(rotation);
 
@@ -57,7 +59,7 @@ void Entity::OnNetSync() {
 	setTransform.isOnGround = true;
 	setTransform.id = entityId;
 	setTransform.angle = steps;
-	setTransform.deltaPosition = movementDir;
+	setTransform.deltaPosition = lastKnownPosition;
 	world->BroadcastMessage(setTransform, player);
 
 	EntityHeadLookPacket headYawPacket;

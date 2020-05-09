@@ -10,6 +10,6 @@
 */
 class IMapManager {
 public:
-	virtual void OnChunkBorderCrossed(ChunkPosition crossedChunkPosition, Player* crosser) = 0;
+	virtual void OnChunkBorderCrossed(ChunkPosition crossedChunkPosition, ChunkPosition oldChunkPosition, Player* crosser) = 0;
 	virtual void SendChunkAtPosition(ChunkPosition pos, Player* player) = 0;
 };

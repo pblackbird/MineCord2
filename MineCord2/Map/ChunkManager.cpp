@@ -2,6 +2,25 @@
 
 ChunkManager* ChunkManager::pSingleton;
 
+int32_t ChunkManager::GetChunkID(ChunkPosition position) {
+	return (int32_t)((position.z * CHUNK_MAP_WIDTH) + position.x);
+}
+
+bool ChunkManager::DisposeChunk(ChunkPosition position) {
+	logger.Info("Disposing chunk at %i %i ...", position.x, position.z);
+
+	auto chunk = GetChunkByPosition(position);
+
+	if (!chunk) {
+		return false;
+	}
+
+	loadedChunks.erase(chunk->GetID());
+	delete chunk;
+
+	return true;
+}
+
 Chunk* ChunkManager::LoadChunkFromDisk(ChunkPosition position) {
 	if (GetChunkByPosition(position)) {
 		return nullptr;
@@ -36,14 +55,11 @@ Chunk* ChunkManager::LoadChunkFromDisk(ChunkPosition position) {
 		}
 	}
 
-	loadedChunks[(int32_t)((position.z * CHUNK_MAP_WIDTH) + position.x)] = testChunk;
+	loadedChunks[ChunkManager::GetChunkID(position)] = testChunk;
 
 	return testChunk;
 }
 
-ChunkManager::ChunkManager() {
-}
-
 Chunk* ChunkManager::GetChunkByPosition(ChunkPosition position) {
-	return loadedChunks[(int32_t)((position.z * CHUNK_MAP_WIDTH) + position.x)];
+	return loadedChunks[ChunkManager::GetChunkID(position)];
 }
