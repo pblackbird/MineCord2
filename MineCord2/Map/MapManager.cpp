@@ -6,8 +6,6 @@
 MapManager* MapManager::pSingleton;
 
 bool MapManager::Dispose(ChunkPosition position) {
-	logger.Info("Disposing %i %i", position.x, position.z);
-
 	const auto chunkManager = ChunkManager::GetInstance();
 
 	Chunk* pChunk = chunkManager->GetChunkByPosition(position);
@@ -16,7 +14,7 @@ bool MapManager::Dispose(ChunkPosition position) {
 		return false;
 	}
 
-	if (pChunk->GetEntitiesInside().size() == 0) {
+	if (pChunk->GetEntitiesInside().size() != 0) {
 		return false;
 	}
 

@@ -47,7 +47,7 @@ Chunk* ChunkManager::LoadChunkFromDisk(ChunkPosition position) {
 
 	for (int x = 0; x < 16; x++) {
 		for (int z = 0; z < 16; z++) {
-			testChunk->SetBlock(Block(0b00000001010000), {
+			testChunk->SetBlock(Block(0b00000011010000), {
 				(double)x,
 				255 - 4 * 16,
 				(double)z
