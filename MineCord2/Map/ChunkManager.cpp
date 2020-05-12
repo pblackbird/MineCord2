@@ -7,8 +7,6 @@ int64_t ChunkManager::GetChunkID(ChunkPosition position) {
 }
 
 bool ChunkManager::DisposeChunk(ChunkPosition position) {
-	logger.Info("Disposing chunk at %i %i ...", position.x, position.z);
-
 	auto chunk = GetChunkByPosition(position);
 
 	if (!chunk) {
