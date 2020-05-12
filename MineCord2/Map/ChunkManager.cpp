@@ -2,8 +2,8 @@
 
 ChunkManager* ChunkManager::pSingleton;
 
-int32_t ChunkManager::GetChunkID(ChunkPosition position) {
-	return (int32_t)((position.z * CHUNK_MAP_WIDTH) + position.x);
+int64_t ChunkManager::GetChunkID(ChunkPosition position) {
+	return (int64_t)((position.z * CHUNK_MAP_WIDTH) + position.x);
 }
 
 bool ChunkManager::DisposeChunk(ChunkPosition position) {

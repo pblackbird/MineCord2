@@ -79,16 +79,23 @@ void PlayerEntity::OnCreate() {
 	const auto player = world->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 10, 193, 1 };
+	position = { 400, 193, 400 };
+
+	const auto playerChunk = player->GetSlaveEntity()->GetCurrentChunkPosition();
+
+	MapManager::GetInstance()->OnChunkBorderCrossed(
+		playerChunk,
+		playerChunk,
+		this
+	);
 
 	// spawn player in world locally for this player
 	player->Join(GameMode::SURVIVAL);
+
 	player->SetTransform(
 		position,
 		rotation
 	);
-	
-	MapManager::GetInstance()->OnChunkBorderCrossed({ (int)position.x / 16, (int)position.z / 16 }, { 0, 0 }, player);
 
 	// Fill new player's tab menu with already connected players
 	std::vector<PlayerListEntry> playersList;

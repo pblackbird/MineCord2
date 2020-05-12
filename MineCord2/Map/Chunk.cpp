@@ -102,6 +102,6 @@ std::vector<entity_id> Chunk::GetEntitiesInside() {
 	return result;
 }
 
-int32_t Chunk::GetID() {
+int64_t Chunk::GetID() {
 	return ChunkManager::GetChunkID({ x, z });
 }

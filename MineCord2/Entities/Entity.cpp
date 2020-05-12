@@ -42,10 +42,8 @@ void Entity::OnMove(Point3D newPos) {
 	Move(dir.x, dir.y, dir.z);
 
 	if (currentChunkPos.x != lastChunkPosition.x || currentChunkPos.z != lastChunkPosition.z) {
-		if (player) {
-			MapManager::GetInstance()->OnChunkBorderCrossed(currentChunkPos, lastChunkPosition, player);
-			lastChunkPosition = currentChunkPos;
-		}
+		MapManager::GetInstance()->OnChunkBorderCrossed(currentChunkPos, lastChunkPosition, this);
+		lastChunkPosition = currentChunkPos;
 	}
 }
 

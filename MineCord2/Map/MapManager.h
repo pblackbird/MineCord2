@@ -4,7 +4,7 @@
 #include "IMapManager.h"
 #include "ChunkManager.h"
 
-#define REGION_SIZE_IN_CHUNKS 3
+#define REGION_SIZE_IN_CHUNKS 5
 
 class MapManager : public IMapManager {
 DECLARE_SINGLETON(MapManager)
@@ -17,6 +17,8 @@ public:
 		logger.SetTag("Map manager");
 	}
 
-	virtual void OnChunkBorderCrossed(ChunkPosition newChunkPosition, ChunkPosition oldChunkPosition, Player* crosser) override;
+	bool Dispose(ChunkPosition position);
+
+	virtual void OnChunkBorderCrossed(ChunkPosition newChunkPosition, ChunkPosition oldChunkPosition, Entity* crosser) override;
 	virtual void SendChunkAtPosition(ChunkPosition position, Player* player) override;
 };

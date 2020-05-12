@@ -42,7 +42,7 @@ public:
 
 	std::vector<entity_id> GetEntitiesInside();
 
-	int32_t GetID();
+	int64_t GetID();
 
 	void SetPosition(ChunkPosition pos) {
 		x = pos.x;
