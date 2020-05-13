@@ -20,9 +20,7 @@ bool MemoryMappedFile::Remap() {
 	return pointer != MAP_FAILED;
 }
 
-bool MemoryMappedFile::Open(size_t size) {
-	std::cout << size << std::endl;
-
+bool MemoryMappedFile::Open(ssize_t size) {
 	if (size == 0) {
 		size = Utl::GetFileSize(path);
 

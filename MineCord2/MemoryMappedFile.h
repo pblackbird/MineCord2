@@ -10,7 +10,7 @@ private:
 	int fd;
 
 	ssize_t size;
-	void* pointer;
+	void* pointer = nullptr;
 
 	std::string path;
 
@@ -22,6 +22,14 @@ public:
 		return pointer;
 	}
 
+	void SetSize(ssize_t newSize) {
+		size = newSize;
+	}
+
+	ssize_t GetSize() {
+		return size;
+	}
+
 	bool Remap();
-	bool Open(size_t size = 0);
+	bool Open(ssize_t ssize = 0);
 };

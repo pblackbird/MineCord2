@@ -9,16 +9,13 @@ void GenerateTestMap() {
 	generatorLogger.Info("Generating map ...");
 
 	Chunk* testChunk = new Chunk();
-	testChunk->SetPosition({ 1, 1 });
 
-	// Fill 16 chunk sections per chunk
 	for (int i = 0; i < 12; i++) {
 		ChunkSection section = {};
 
-		// Fill 16 blocks per chunk section
 		for (int j = 0; j < 4096; j++) {
 			Block testBlock;
-			testBlock.palette = 0b00000000010000;
+			testBlock.palette = 1;//0b00000000010000;
 
 			section.SetBlock(j, testBlock);
 		}
@@ -26,28 +23,32 @@ void GenerateTestMap() {
 		testChunk->SetSection(i, section);
 	}
 
-	for (int x = 0; x < 16; x++) {
-		for (int z = 0; z < 16; z++) {
-			testChunk->SetBlock(Block(0b00000011010000), {
-				(double)x,
-				255 - 4 * 16,
-				(double)z
-			});
-		}
-	}
-
 	int mapDataFd = open(MAP_FILE_PATH, O_RDWR | O_CREAT);
 
 	MapDataFileHeader header;
-	header.width = 1;
-	header.height = 1;
+	header.width = CHUNK_MAP_WIDTH;
+	header.height = CHUNK_MAP_WIDTH;
 	header.version = MAP_DATA_ENGINE_VERSION;
 
-	write(mapDataFd, (MapDataFileHeader*)&header, sizeof(header));
+	const auto dataSize = sizeof(MapDataFileHeader) + sizeof(ChunkDataEntry) * CHUNK_MAP_WIDTH * CHUNK_MAP_WIDTH;
+	char* dataBuf = new char[dataSize];
+
+	bzero(dataBuf, dataSize);
+	memcpy(dataBuf, (MapDataFileHeader*)&header, sizeof(header));
+
+	write(mapDataFd, dataBuf, dataSize);
 	close(mapDataFd);
 
-	MapDataFile mapData;
-	mapData.WriteChunk(testChunk);
+	for (int x = 0; x < CHUNK_MAP_WIDTH; x++) {
+		for (int z = 0; z < CHUNK_MAP_WIDTH; z++) {
+			MapDataFile mapData;
+			testChunk->SetPosition({ x, z });
+			mapData.WriteChunk(testChunk);
+		}
+	}
+
+	delete dataBuf;
+	delete testChunk;
 
 	generatorLogger.Info("Generated");
 }

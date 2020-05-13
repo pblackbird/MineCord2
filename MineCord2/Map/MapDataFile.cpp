@@ -22,7 +22,7 @@ MapDataFile::MapDataFile() {
 
 	pMemoryMappedFile = new MemoryMappedFile(MAP_FILE_PATH);
 	
-	const auto fSize = sizeof(MapDataFileHeader) + sizeof(ChunkDataEntry);
+	const auto fSize = sizeof(MapDataFileHeader) + sizeof(ChunkDataEntry) * 100 * 100;
 
 	if (!pMemoryMappedFile->Open(fSize)) {
 		logger.Error("Error opening map data file: %i", errno);
@@ -73,6 +73,7 @@ bool MapDataFile::WriteChunk(Chunk* chunk) {
 	if (chunkIndex < 0) {
 		return false;
 	}
+	
 
 	for (int i = 0; i < 16; i++) {
 		chunks[chunkIndex].sections[i] = chunk->GetSection(i);

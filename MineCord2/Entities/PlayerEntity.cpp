@@ -79,7 +79,7 @@ void PlayerEntity::OnCreate() {
 	const auto player = world->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 400, 193, 400 };
+	position = { 100, 193, 100 };
 
 	const auto playerChunk = player->GetSlaveEntity()->GetCurrentChunkPosition();
 

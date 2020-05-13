@@ -8,7 +8,7 @@
 #include "Chunk.h"
 #include "../Utl.h"
 
-#define CHUNK_MAP_WIDTH 1000
+#define CHUNK_MAP_WIDTH 100
 
 using ChunkMap = std::map<int64_t, Chunk*>;
 
