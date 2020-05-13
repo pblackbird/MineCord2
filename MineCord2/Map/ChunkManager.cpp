@@ -19,43 +19,20 @@ bool ChunkManager::DisposeChunk(ChunkPosition position) {
 	return true;
 }
 
-Chunk* ChunkManager::LoadChunkFromDisk(ChunkPosition position) {
+Chunk* ChunkManager::LoadChunkFromDisk(ChunkPosition position, MapDataFile* mapData) {
 	if (GetChunkByPosition(position)) {
 		return nullptr;
 	}
 
-	// TODO: implement memory mapped file
-	Chunk *testChunk = new Chunk();
-	testChunk->SetPosition(position);
+	Chunk* pChunk = mapData->ReadChunk(position);
 
-	// Fill 16 chunk sections per chunk
-	for (int i = 0; i < 12; i++) {
-		ChunkSection section = {};
-
-		// Fill 16 blocks per chunk section
-		for (int j = 0; j < 4096; j++) {
-			Block testBlock;
-			testBlock.palette = 0b00000000010000;
-
-			section.SetBlock(j, testBlock);
-		}
-
-		testChunk->SetSection(i, section);
+	if (!pChunk) {
+		return nullptr;
 	}
 
-	for (int x = 0; x < 16; x++) {
-		for (int z = 0; z < 16; z++) {
-			testChunk->SetBlock(Block(0b00000011010000), {
-				(double)x,
-				255 - 4 * 16,
-				(double)z
-			});
-		}
-	}
+	loadedChunks[ChunkManager::GetChunkID(position)] = pChunk;
 
-	loadedChunks[ChunkManager::GetChunkID(position)] = testChunk;
-
-	return testChunk;
+	return pChunk;
 }
 
 Chunk* ChunkManager::GetChunkByPosition(ChunkPosition position) {

@@ -7,6 +7,8 @@
 #include <locale>
 #include <codecvt>
 #include <cwchar>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "Logger.h"
 

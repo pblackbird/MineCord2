@@ -3,6 +3,7 @@
 #include "Chunk.h"
 #include "IMapManager.h"
 #include "ChunkManager.h"
+#include "MapDataFile.h"
 
 #define REGION_SIZE_IN_CHUNKS 5
 
@@ -11,11 +12,12 @@ DECLARE_SINGLETON(MapManager)
 
 private:
 	Logger logger;
+	MapDataFile* mapData;
 
 public:
-	MapManager() {
-		logger.SetTag("Map manager");
-	}
+	MapManager();
+
+	void LoadMapData();
 
 	bool Dispose(ChunkPosition position);
 

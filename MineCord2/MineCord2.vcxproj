@@ -101,9 +101,11 @@
     <ClCompile Include="Map\Chunk.cpp" />
     <ClCompile Include="Map\ChunkManager.cpp" />
     <ClCompile Include="Map\ChunkSection.cpp" />
+    <ClCompile Include="Map\MapDataFile.cpp" />
     <ClCompile Include="Map\MapManager.cpp" />
     <ClCompile Include="Map\Tests\TestMapGenerator.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="MemoryMappedFile.cpp" />
     <ClCompile Include="NBT\NBT.cpp" />
     <ClCompile Include="NBT\NBTByte.cpp" />
     <ClCompile Include="NBT\NBTByteArray.cpp" />
@@ -175,9 +177,11 @@
     <ClInclude Include="Map\Chunk.h" />
     <ClInclude Include="Map\ChunkManager.h" />
     <ClInclude Include="Map\ChunkSection.h" />
+    <ClInclude Include="Map\MapDataFile.h" />
     <ClInclude Include="Map\MapManager.h" />
     <ClInclude Include="Map\Tests\TestMapGenerator.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="MemoryMappedFile.h" />
     <ClInclude Include="NBT\NBT.h" />
     <ClInclude Include="NBT\NBTByte.h" />
     <ClInclude Include="NBT\NBTByteArray.h" />

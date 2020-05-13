@@ -4,10 +4,11 @@
 #include <thread>
 #include <mutex>
 
+#include "MapDataFile.h"
 #include "Chunk.h"
 #include "../Utl.h"
 
-#define CHUNK_MAP_WIDTH 1000000L
+#define CHUNK_MAP_WIDTH 1000
 
 using ChunkMap = std::map<int64_t, Chunk*>;
 
@@ -24,6 +25,6 @@ public:
 	static int64_t GetChunkID(ChunkPosition position);
 
 	bool DisposeChunk(ChunkPosition position);
-	Chunk* LoadChunkFromDisk(ChunkPosition position);
+	Chunk* LoadChunkFromDisk(ChunkPosition position, MapDataFile* mapData);
 	Chunk* GetChunkByPosition(ChunkPosition position);
 };

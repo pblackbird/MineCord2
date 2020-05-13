@@ -1,9 +1,15 @@
 #include "MapManager.h"
 #include "../World/PrimaryWorld.h"
-#include "../GamePackets/ChunkDataPacket.h"
-#include "../GamePackets/UnloadChunkPacket.h"
 
 MapManager* MapManager::pSingleton;
+
+MapManager::MapManager() {
+	logger.SetTag("Map manager");
+}
+
+void MapManager::LoadMapData() {
+	mapData = new MapDataFile();
+}
 
 bool MapManager::Dispose(ChunkPosition position) {
 	const auto chunkManager = ChunkManager::GetInstance();
@@ -45,7 +51,17 @@ void MapManager::SendChunkAtPosition(ChunkPosition position, Player* player) {
 	);
 
 	if (!playerChunk) {
-		playerChunk = chunkManager->LoadChunkFromDisk(position);
+		playerChunk = chunkManager->LoadChunkFromDisk(position, mapData);
+
+		if (!playerChunk) {
+			logger.Warning(
+				"Chunk at position %i %i could not be loaded!",
+				position.x,
+				position.z
+			);
+
+			return;
+		}
 	}
 
 	player->LoadChunk(playerChunk);

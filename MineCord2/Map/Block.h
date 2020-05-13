@@ -6,9 +6,9 @@
 
 class Block {
 public:
-	int64_t palette;
+	int16_t palette;
 
 public:
 	Block() {};
-	Block(int64_t plt) : palette(plt) {};
+	Block(int16_t plt) : palette(plt) {};
 };

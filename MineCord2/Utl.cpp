@@ -16,17 +16,21 @@ void Utl::SetBit(int& val, int bitPosition) {
 }
 
 ssize_t Utl::GetFileSize(const std::string& path) {
-	ssize_t ret = 0;
-	FILE* f = fopen(path.c_str(), "rb");
-	if (!f) {
+	struct stat fileStat;
+
+	int fd = open(path.c_str(), O_RDONLY);
+
+	if (fd < 0) {
 		return -1;
 	}
 
-	fseek(f, 0, SEEK_END);
-	ret = ftell(f);
+	if (fstat(fd, &fileStat) < 0) {
+		return -1;
+	}
 
-	fclose(f);
-	return ret;
+	close(fd);
+
+	return fileStat.st_size;
 }
 
 bool Utl::Decompress(std::vector<uint8_t>& in, std::vector<uint8_t>& out) {

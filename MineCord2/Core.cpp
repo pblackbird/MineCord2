@@ -1,8 +1,10 @@
 #include "Core.h"
 #include "States/StatesBindings.h"
 #include "World/PrimaryWorld.h"
+#include "Map/MapManager.h"
 
 #include "NBT/Tests/NBT_Test.h"
+#include "Map/Tests/TestMapGenerator.h"
 
 Core* Core::pSingleton;
 
@@ -16,6 +18,9 @@ void Core::Boot() {
 
 	StatesBindings::GetInstance()->Fill();
 
+	const auto mapManager = MapManager::GetInstance();
+	mapManager->LoadMapData();
+
 	const auto world = PrimaryWorld::GetInstance();
 	world->Run();
 
@@ -25,11 +30,13 @@ void Core::Boot() {
 
 void Core::Test() {
 	std::string nbtFilePath;
-	if (!GetCommandLineArgument("nbtfile", nbtFilePath)) {
-		return;
+	if (GetCommandLineArgument("nbtfile", nbtFilePath)) {
+		TestNBT(nbtFilePath);
 	}
 
-	TestNBT(nbtFilePath);
+	if (HasCmdArg("generate")) {
+		GenerateTestMap();
+	}
 }
 
 void Core::ParseCmdLine(int argc, char* argv[]) {
