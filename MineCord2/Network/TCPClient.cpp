@@ -35,7 +35,7 @@ void TCPClient::SendChunk() {
 	std::vector<uint8_t> tmpBuffer;
 
 	if (buffers.sendFeedBytes > SEND_BUFFER_SIZE) {
-		for (int i = 0; i < SEND_BUFFER_SIZE; i++) {
+		for (int i = 0; i < (int)buffers.sendFeedBytes; i++) {
 			tmpBuffer.push_back(buffers.sendBuffer[i]);
 		}
 	} else {
@@ -48,12 +48,10 @@ void TCPClient::SendChunk() {
 
 	ssize_t result = send(clientSocket, tmpBuffer.data(), tmpBuffer.size(), MSG_NOSIGNAL);
 
-	if (result < 0 && (errno != EAGAIN && errno != EWOULDBLOCK)) {
-		Disconnect();
-	} else {
-		buffers.sendBuffer.erase(buffers.sendBuffer.begin(), buffers.sendBuffer.begin() + result);
-		buffers.sendFeedBytes -= result;
+	buffers.sendBuffer.erase(buffers.sendBuffer.begin(), buffers.sendBuffer.begin() + result);
+	buffers.sendFeedBytes -= result;
 
+	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
 		CheckFD();
 	}
 }

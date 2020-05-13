@@ -2,7 +2,9 @@
 #include "../MinecraftTypes.h"
 #include "../NBT/NBTCompound.h"
 #include "../NBT/NBTLongArray.h"
+#include "../World/PrimaryWorld.h"
 #include "../Utl.h"
+#include "../Map/ChunkManager.h"
 
 void Chunk::Serialize(Buffer& dest) {
 	NBTLongArray *test = new NBTLongArray();
@@ -42,4 +44,64 @@ void Chunk::Serialize(Buffer& dest) {
 	for (int i = 0; i < 256; i++) {
 		dest.writeInt32_BE(0);
 	}
+}
+
+void Chunk::SetBlock(Block block, Point3D position) {
+	if (position.y >= 256.f) {
+		return;
+	}
+
+	const int sectionIndex = (int)position.y / 16;
+
+	ChunkSection section = sections[sectionIndex];
+
+	int blockIndex = section.BlockRelativePositionToIndex({
+		position.x,
+		(float)((int)position.y % 16),
+		position.z
+	});
+		
+	sections[sectionIndex].SetBlock(blockIndex, block);
+
+	if (blockChangedCallback) {
+		blockChangedCallback(this, block);
+	}
+}
+
+Block Chunk::GetBlock(Point3D position) {
+	if (position.y >= 256.f) {
+		return AIR_BLOCK;
+	}
+
+	ChunkSection section = sections[(int)position.y / 16];
+
+	return section.GetBlock(section.BlockRelativePositionToIndex({
+		position.x,
+		(float)((int)position.y % 16),
+		position.z
+	}));
+}
+
+std::vector<entity_id> Chunk::GetEntitiesInside() {
+	const auto world = PrimaryWorld::GetInstance();
+	std::vector<entity_id> result;
+
+	const auto thisChunkPosition = this->GetPosition();
+
+	world->EnumerateEntities([&result, thisChunkPosition](Entity* entity) {
+		const auto entityChunkPosition = entity->GetCurrentChunkPosition();
+
+		bool xmatch = entityChunkPosition.x == thisChunkPosition.x;
+		bool zmatch = entityChunkPosition.z == thisChunkPosition.z;
+
+		if (xmatch && zmatch) {
+			result.push_back(entity->GetID());
+		}
+	});
+
+	return result;
+}
+
+int64_t Chunk::GetID() {
+	return ChunkManager::GetChunkID({ x, z });
 }

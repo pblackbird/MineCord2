@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Chunk.h"
 #include "../Transformable.h"
 #include "../ThirdParty/BufferedIO.h"
-#include "Chunk.h"
 #include "../Player.h"
 
 /*
@@ -10,6 +10,6 @@
 */
 class IMapManager {
 public:
-	// Serialize chunk at position
-	virtual void SendRegionAtPosition(ChunkPosition pos, Player* player) = 0;
+	virtual void OnChunkBorderCrossed(ChunkPosition crossedChunkPosition, ChunkPosition oldChunkPosition, Entity* crosser) = 0;
+	virtual void SendChunkAtPosition(ChunkPosition pos, Player* player) = 0;
 };

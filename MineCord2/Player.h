@@ -43,10 +43,21 @@ public:
 
 	~Player();
 
+	std::string GetUsername() {
+		return pNetClient->GetUsername();
+	}
+
 	void OnMsg(BaseNetPacket& msg);
 
 	void ControlTabMenu(PlayerInfoAction action, std::vector<PlayerListEntry> players);
 	void SpawnVisiblePlayer(Player* visiblePlayer);
+	void UnloadChunk(ChunkPosition position);
+	void LoadChunk(Chunk* pChunk);
+
+	void AnnounceNewRegion(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin);
+	void DisposeOldRegion(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin);
+
+	void OnChunkBorderCrossed(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin);
 
 	void SetSlaveEntity(PlayerEntity* pEnt) {
 		pSlave = pEnt;

@@ -3,8 +3,11 @@
 #include "GamePackets/KeepAlivePacket.h"
 #include "GamePackets/SetPlayerTransformPacket.h"
 #include "GamePackets/UpdateViewPositionPacket.h"
+#include "GamePackets/UnloadChunkPacket.h"
+#include "GamePackets/ChunkDataPacket.h"
 
 #include "World/PrimaryWorld.h"
+#include "Map/MapManager.h"
 
 #include "PlayerActions/PlayerMove.h"
 #include "PlayerActions/ChatMsg.h"
@@ -117,4 +120,76 @@ void Player::SpawnVisiblePlayer(Player* visiblePlayer) {
 	packet.metadata = visiblePlayerEntity->GetMetadataBlob();
 
 	pNetClient->Invoke(packet);
+}
+
+void Player::UnloadChunk(ChunkPosition position) {
+	UnloadChunkPacket unloadMsg;
+	unloadMsg.x = position.x;
+	unloadMsg.z = position.z;
+
+	pNetClient->Invoke(unloadMsg);
+}
+
+void Player::LoadChunk(Chunk* pChunk) {
+	ChunkDataPacket loadChunkMsg;
+	loadChunkMsg.chunk = pChunk;
+
+	pNetClient->Invoke(loadChunkMsg);
+}
+
+void Player::AnnounceNewRegion(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin) {
+	const auto mapManager = MapManager::GetInstance();
+
+	for (int z = -REGION_SIZE_IN_CHUNKS; z < REGION_SIZE_IN_CHUNKS; z++) {
+		for (int x = -REGION_SIZE_IN_CHUNKS; x < REGION_SIZE_IN_CHUNKS; x++) {
+			ChunkPosition loadingChunkPosition = {
+				newRegionOrigin.x + x,
+				newRegionOrigin.z + z
+			};
+
+			bool xOuts = loadingChunkPosition.x > oldRegionOrigin.x - REGION_SIZE_IN_CHUNKS
+				&& loadingChunkPosition.x < oldRegionOrigin.x + REGION_SIZE_IN_CHUNKS;
+
+			bool zOuts = loadingChunkPosition.z > oldRegionOrigin.z - REGION_SIZE_IN_CHUNKS
+				&& loadingChunkPosition.z < oldRegionOrigin.z + REGION_SIZE_IN_CHUNKS;
+
+			if (!zOuts || !xOuts) {
+				mapManager->SendChunkAtPosition(
+					loadingChunkPosition,
+					this
+				);
+			}
+
+		}
+	}
+}
+
+void Player::DisposeOldRegion(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin) {
+	const auto mapManager = MapManager::GetInstance();
+
+	for (int z = -REGION_SIZE_IN_CHUNKS; z < REGION_SIZE_IN_CHUNKS; z++) {
+		for (int x = -REGION_SIZE_IN_CHUNKS; x < REGION_SIZE_IN_CHUNKS; x++) {
+			ChunkPosition disposingChunkPosition = {
+				oldRegionOrigin.x + x,
+				oldRegionOrigin.z + z
+			};
+
+			bool xOuts = disposingChunkPosition.x > newRegionOrigin.x - REGION_SIZE_IN_CHUNKS
+				&& disposingChunkPosition.x < newRegionOrigin.x + REGION_SIZE_IN_CHUNKS;
+
+			bool zOuts = disposingChunkPosition.z > newRegionOrigin.z - REGION_SIZE_IN_CHUNKS
+				&& disposingChunkPosition.z < newRegionOrigin.z + REGION_SIZE_IN_CHUNKS;
+
+			if (!zOuts || !xOuts) {
+				mapManager->Dispose(disposingChunkPosition);
+				UnloadChunk(disposingChunkPosition);
+			}
+
+		}
+	}
+}
+
+void Player::OnChunkBorderCrossed(ChunkPosition newRegionOrigin, ChunkPosition oldRegionOrigin) {
+	AnnounceNewRegion(newRegionOrigin, oldRegionOrigin);
+	DisposeOldRegion(newRegionOrigin, oldRegionOrigin);
 }

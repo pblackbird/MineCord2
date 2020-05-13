@@ -28,7 +28,8 @@ typedef struct {
 
 class Transformable {
 protected:
-	Point3D position, lastPosition;
+	Point3D position;
+
 	Angle rotation;
 	uint8_t transformationFlags;
 
@@ -47,9 +48,6 @@ public:
 
 	void SetRotation(float pitch, float yaw);
 	void SetRotation(Angle ang);
-
-	void SetLastPosition(Point3D pos);
-	Point3D GetLastPosition();
 
 	Point3D GetPosition();
 	Angle GetRotation();

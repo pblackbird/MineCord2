@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../Packets/BaseNetPacket.h"
-#include "../Map/Chunk.h"
 
-class ChunkDataPacket : public BaseNetPacket {
+class UnloadChunkPacket : public BaseNetPacket {
 public:
-	Chunk *chunk;
+	int32_t x, z;
 
 public:
-	ChunkDataPacket() {
+	UnloadChunkPacket() {
 		isCompressed = true;
 	}
 

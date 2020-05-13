@@ -5,6 +5,7 @@
 #include "../GamePackets/EntityMovementPacket.h"
 #include "../Utl.h"
 #include "../World/PrimaryWorld.h"
+#include "../Map/MapManager.h"
 
 entity_id Entity::entityIndexCounter = 0;
 
@@ -26,36 +27,43 @@ Entity::Entity() {
 	entityName = "Unnamed creature";
 }
 
-void Entity::SyncEntity() {
+void Entity::OnMove(Point3D newPos) {
+	const auto currentChunkPos = GetCurrentChunkPosition();
 	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
 
-	EntityMovementPacket movePacket;
-	movePacket.id = entityId;
+	const auto dir = movementDirection.GetDirection();
 
-	//PrimaryWorld::GetInstance()->BroadcastMessage(movePacket, player);
+	lastKnownPosition = {
+		(newPos.x * 32 - position.x * 32) * 128,
+		(newPos.y * 32 - position.y * 32) * 128,
+		(newPos.z * 32 - position.z * 32) * 128,
+	};
+
+	Move(dir.x, dir.y, dir.z);
+
+	if (currentChunkPos.x != lastChunkPosition.x || currentChunkPos.z != lastChunkPosition.z) {
+		MapManager::GetInstance()->OnChunkBorderCrossed(currentChunkPos, lastChunkPosition, this);
+		lastChunkPosition = currentChunkPos;
+	}
+}
+
+void Entity::OnNetSync() {
+	const auto world = PrimaryWorld::GetInstance();
+	const auto player = world->GetPlayerBySlaveId(entityId);
 
 	AngleStep steps = Transformable::GetStepByAngle(rotation);
-
-	Point3D deltaPosition = {
-		lastPosition.x,
-		lastPosition.y,
-		lastPosition.z
-	};
 
 	SetEntityPositionRotationPacket setTransform;
 	setTransform.isOnGround = true;
 	setTransform.id = entityId;
 	setTransform.angle = steps;
-	setTransform.deltaPosition = deltaPosition;
-
-	PrimaryWorld::GetInstance()->BroadcastMessage(setTransform, player);
+	setTransform.deltaPosition = lastKnownPosition;
+	world->BroadcastMessage(setTransform, player);
 
 	EntityHeadLookPacket headYawPacket;
 	headYawPacket.id = entityId;
 	headYawPacket.headYaw = steps.yaw;
-	PrimaryWorld::GetInstance()->BroadcastMessage(headYawPacket, player);
-
-	lastPosition = { 0.0, 0.0, 0.0 };
+	world->BroadcastMessage(headYawPacket, player);
 }
 
 void Entity::OnTick() {
@@ -63,6 +71,7 @@ void Entity::OnTick() {
 }
 
 void Entity::OnDestroy() {
+	// destroy disconnected player's entity for other players
 	DestroyEntitiesPacket destroyMsg;
 	destroyMsg.entities.push_back(entityId);
 
@@ -72,6 +81,13 @@ void Entity::OnDestroy() {
 std::vector<uint8_t> Entity::GetMetadataBlob() {
 	EndMetadataArray();
 	return metadataBlob.getBuffer();
+}
+
+ChunkPosition Entity::GetCurrentChunkPosition() {
+	return {
+		(int32_t)(position.x) / 16,
+		(int32_t)(position.z) / 16
+	};
 }
 
 void Entity::BuildMetadata() {

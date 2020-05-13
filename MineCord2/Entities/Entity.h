@@ -3,9 +3,11 @@
 #include <string>
 #include <uuid/uuid.h>
 
+#include "../Vector.h"
 #include "../ThirdParty/BufferedIO.h"
 #include "../MinecraftTypes.h"
 #include "../Transformable.h"
+#include "../Map/Chunk.h"
 
 enum class MetadataType : int {
 	BYTE,
@@ -42,8 +44,15 @@ protected:
 	entity_id entityId;
 	uuid_t uuid;
 
+	Vector movementDirection;
+	ChunkPosition lastChunkPosition;
+
+	Point3D lastKnownPosition;
+
 	std::string entityName;
 	Buffer metadataBlob;
+
+	bool isPlayer = false;
 
 public:
 	uint8_t stateMask = 0;
@@ -101,7 +110,10 @@ public:
 	Entity(const std::string&& uuid);
 	Entity();
 
-	virtual void SyncEntity();
+	virtual void OnMove(Point3D newPos);
+
+	// synchronization logic
+	virtual void OnNetSync();
 
 	virtual void OnTick();
 	virtual void OnCreate() = 0;
@@ -111,6 +123,19 @@ public:
 	virtual ~Entity() {};
 
 	std::vector<uint8_t> GetMetadataBlob();
+	ChunkPosition GetCurrentChunkPosition();
+
+	bool IsPlayer() {
+		return isPlayer;
+	}
+
+	void SetMovementDirection(Vector dir) {
+		movementDirection = dir;
+	}
+
+	Vector GetMovementDirection() {
+		return movementDirection;
+	}
 
 	std::string GetName() {
 		return entityName;

@@ -1,23 +1,24 @@
 #pragma once
 
+#include <functional>
 #include <string>
 #include <thread>
 #include <map>
 #include <algorithm>
 #include <cassert>
 
+#include "../MinecraftTypes.h"
 #include "../Player.h"
 #include "../Entities/Entity.h"
 #include "../Logger.h"
 #include "../GamePackets/SetPlayerTransformPacket.h"
-#include <functional>
 
 class BaseWorld {
 private:
 	std::mutex _entityMutex;
 
 protected:
-	std::map<ssize_t, Entity*> entities;
+	std::map<entity_id, Entity*> entities;
 	std::vector<Player*> players;
 
 protected:
@@ -33,7 +34,6 @@ protected:
 
 private:
 	void PingPlayers();
-	void SyncEntities();
 
 public:
 	BaseWorld() {
@@ -64,7 +64,10 @@ public:
 	Player* GetPlayerByNetworkClientId(int clientId);
 	int GetPlayerIndexByNetworkClientId(int clientId);
 
+	Entity* GetEntityByID(entity_id id);
+
 	void EnumeratePlayers(std::function<void(Player* player)> callback);
+	void EnumerateEntities(std::function<void(Entity * entity)> callback);
 
 	void Run();
 };

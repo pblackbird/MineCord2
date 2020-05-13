@@ -1,7 +1,7 @@
 #include "PlayerEntity.h"
 #include "../GamePackets/ChunkDataPacket.h"
 #include "../World/PrimaryWorld.h"
-#include "../Map/TestMapManager.h"
+#include "../Map/MapManager.h"
 #include "../GamePackets/PlayerInfoPacket.h"
 #include "../GamePackets/SetEntityRotationPacket.h"
 #include "../GamePackets/ServerChatSayPacket.h"
@@ -10,6 +10,7 @@
 
 PlayerEntity::PlayerEntity(const std::string uuid) : LivingEntity() {
 	uuid_parse(uuid.c_str(), this->uuid);
+	isPlayer = true;
 }
 
 void PlayerEntity::BuildMetadata() {
@@ -73,33 +74,39 @@ void PushPlayer(std::vector<PlayerListEntry>& list, Player* existPlayer) {
 }
 
 void PlayerEntity::OnCreate() {
-	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
+	const auto world = PrimaryWorld::GetInstance();
+
+	const auto player = world->GetPlayerBySlaveId(entityId);
 	assert(player);
 	
-	position = { 0, 193, 0 };
+	position = { 100, 193, 100 };
 
+	const auto playerChunk = player->GetSlaveEntity()->GetCurrentChunkPosition();
+
+	MapManager::GetInstance()->OnChunkBorderCrossed(
+		playerChunk,
+		playerChunk,
+		this
+	);
+
+	// spawn player in world locally for this player
 	player->Join(GameMode::SURVIVAL);
+
 	player->SetTransform(
 		position,
 		rotation
 	);
-	
-	for (int chunkX = 0; chunkX < 1; chunkX++) {
-		for (int chunkZ = 0; chunkZ < 1; chunkZ++) {
-			TestMapManager::GetInstance()->SendRegionAtPosition({ chunkX, chunkZ }, player);
-		}
-	}
 
-	player->SetPlayerPositionChunk({ 0, 0 });
-
+	// Fill new player's tab menu with already connected players
 	std::vector<PlayerListEntry> playersList;
 	std::function<void(Player* player)> pushPlayer = [&playersList](Player* existPlayer) {
 		PushPlayer(playersList, existPlayer);
 	};
 	
-	PrimaryWorld::GetInstance()->EnumeratePlayers(pushPlayer);
+	world->EnumeratePlayers(pushPlayer);
 
-	PrimaryWorld::GetInstance()->EnumeratePlayers([player](Player* currentPlayer) {
+	// Announce new player to already connected players and spawn new player's entity for them
+	world->EnumeratePlayers([player](Player* currentPlayer) {
 		if (player == currentPlayer) {
 			return;
 		}
@@ -115,12 +122,14 @@ void PlayerEntity::OnCreate() {
 		currentPlayer->SpawnVisiblePlayer(player);
 	});
 
+	// Send crafted tab menu to new player
 	player->ControlTabMenu(
 		PlayerInfoAction::ADD_PLAYER,
 		playersList
 	);
 
-	PrimaryWorld::GetInstance()->EnumeratePlayers([player](Player* currentPlayer) {
+	// Spawn visible player entities for new player
+	world->EnumeratePlayers([player](Player* currentPlayer) {
 		if (player == currentPlayer) {
 			return;
 		}
@@ -128,20 +137,24 @@ void PlayerEntity::OnCreate() {
 		player->SpawnVisiblePlayer(currentPlayer);
 	});
 
+	// welcome message :3
 	ServerChatSayPacket say;
 	say.m_json = "{\"text\": \"Player " + player->GetNetClient()->GetUsername() + " has joined the game\"}";
 
-	PrimaryWorld::GetInstance()->BroadcastMessage(say);
+	world->BroadcastMessage(say);
 }
 
 void PlayerEntity::OnDestroy() {
-	const auto player = PrimaryWorld::GetInstance()->GetPlayerBySlaveId(entityId);
+	const auto world = PrimaryWorld::GetInstance();
+
+	const auto player = world->GetPlayerBySlaveId(entityId);
 	assert(player);
 
 	PlayerListEntry playerToRemove;
 	memcpy(playerToRemove.uuid, uuid, sizeof(uuid_t));
 
-	PrimaryWorld::GetInstance()->EnumeratePlayers([playerToRemove, player](Player* currentPlayer) {
+	// remove disconnected player from other's player list
+	world->EnumeratePlayers([playerToRemove, player](Player* currentPlayer) {
 		if (currentPlayer == player) {
 			return;
 		}
