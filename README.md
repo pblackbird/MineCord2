@@ -12,6 +12,6 @@ Short todo list:
 2. Entity Spawn / Entity Destroy sync ✅
 3. Entity movement sync ✅
 ---
-- Make map engine 👩‍💻 (work in progress)
+- Make map engine [1/3] 👩‍💻 (work in progress)
 ---
 - Make plugin system codebase, based on dynamic libraries
